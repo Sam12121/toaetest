@@ -35,7 +35,7 @@ require (
 	github.com/Sam12121/toaetest/toae_utils v0.0.0-00010101000000-000000000000
 	github.com/Sam12121/YaraHunter v0.0.0-00010101000000-000000000000
 	github.com/Sam12121/agent-plugins-grpc v1.1.0
-	github.com/Sam12121/golang_toae_sdk/utils v0.0.0-20231201173641-092afefd00a2
+	github.com/Sam12121/golang_toae_sdk/utils v0.0.0-20231230192613-6905244251f0
 	github.com/Sam12121/package-scanner v0.0.0-00010101000000-000000000000
 	github.com/hibiken/asynq v0.24.1
 	github.com/kelseyhightower/envconfig v1.4.0
