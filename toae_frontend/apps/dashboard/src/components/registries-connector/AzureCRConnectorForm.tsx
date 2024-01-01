@@ -27,7 +27,7 @@ export const AzureCRConnectorForm = ({
       <div className="text-p4 dark:text-text-input-value">
         Connect to your Azure Container Registry. Find out more information by{' '}
         <DFLink
-          href={`https://toaesecurity.com/contact/docs/v2.1/registries/`}
+          href={`https://community.toae.io/threatmapper/docs/v2.0/registries/`}
           target="_blank"
           rel="noreferrer"
         >
@@ -78,9 +78,7 @@ export const AzureCRConnectorForm = ({
           required
         />
       </div>
-      {errorMessage && (
-        <p className="mt-4 dark:text-status-error text-p7">{errorMessage}</p>
-      )}
+      {errorMessage && <p className="mt-4 text-status-error text-p7">{errorMessage}</p>}
     </>
   );
 };

@@ -14,8 +14,8 @@ export const RegisterUser = () => {
 
   return (
     <fetcher.Form method="post">
-      <h1 className="dark:text-text-text-and-icon text-h2 text-center">
-        Register for TOAE Portal
+      <h1 className="text-text-text-and-icon text-h2 text-center">
+        Register for Toae
       </h1>
       <TextInput
         className="mt-8"
@@ -95,9 +95,7 @@ export const RegisterUser = () => {
       </div>
 
       {data?.error && (
-        <div className={`text-center mt-1.5 dark:text-status-error text-p7`}>
-          {data.error}
-        </div>
+        <div className={`text-center mt-1.5 text-status-error text-p7`}>{data.error}</div>
       )}
 
       <div
@@ -120,7 +118,7 @@ export const RegisterUser = () => {
         className={`flex flex-row justify-center text-p4 mt-4 dark:text-text-text-and-icon`}
       >
         Already have an account?&nbsp;
-        <DFLink to="/auth/login" className="underline dark:text-accent-accent" unstyled>
+        <DFLink to="/auth/login" className="underline text-accent-accent" unstyled>
           Sign in
         </DFLink>
       </div>

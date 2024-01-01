@@ -7,50 +7,97 @@ import AuthBg from '@/assets/auth-bg.svg';
 const ToaeLogo = () => {
   return (
     <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 48 48"
-    width="58"
-    height="48"
-  >
-    <style>
-      {
-        '.st4{display:none}.st5{display:inline;fill:#1a4275}.st6{font-family:"Montserrat-ExtraBold"}.st7{font-size:31.4862px}.st8{letter-spacing:6.4}.st9{fill-rule:evenodd;clip-rule:evenodd}.st10,.st9{display:inline;fill:#42a7d7}.st11{font-family:"Montserrat-Bold"}.st12{font-size:8.8146px}'
-      }
-    </style>
-    <path
-      d="M16.9 2.8C24 .1 31 .1 38 2.9c-7 0-14.1.1-21.1-.1z"
-      style={{
-        fillRule: "evenodd",
-        clipRule: "evenodd",
-        fill: "#194275",
-      }}
-    />
-    <path
-      d="M30.5 35.4c-1 .7-2 1.2-3 1.8-.1.1-.2.1-.4 0-1-.5-1.9-1-3-1.8h6.4z"
-      style={{
-        fillRule: "evenodd",
-        clipRule: "evenodd",
-        fill: "#1b4375",
-      }}
-    />
-    <path
-      d="M50.3 18.9c-.3-.8-.9-1.4-1.5-2-1-.8-2.1-1.5-3.3-1.9-.6-.2-.7-.6-.6-1.2.4-2.3.5-4.6.4-6.9 0-.2 0-.5-.2-.6-1.1-.6-2.2-1.3-3.4-2-.2 1.4-.2 2.7-.3 4 0 .3.1.8-.3.8s-.4-.4-.4-.7c0-.1 0-.3-.1-.4-.1-1-.7-1.6-1.6-2-.7-.3-1.3-.4-2.1-.5-2-.2-4.1 0-6.1-.2-.6-.1-.8.1-.8.7v16c0 3.3-.1 6.5.2 9.8.1.7.2 1.4.6 1.9.5.7 1 .8 1.7.3.9-.7 1.7-1.3 2.5-2 1.3-1.1 2.5-2.3 3.6-3.8-1.7.1-5.8.4-5.7.3 1.4-.3 2.8-.5 4.2-.8 2.4-.5 4.7-1.2 6.8-2.5.7-.4 1.5-.9 2-1.6v-.2c.3-.3.4-.6.5-.9.1-.2.1-.4.1-.6v-.2c-.2.4-.7 1-.7 1-1.5 1.7-3.6 2.5-5.8 3.3 1.5-2.2 2.6-4.5 3.4-6.9.2-.5.1-.7-.4-.9-1.4-.5-2.8-.9-4.3-1.1-2.3-.4-4.7-.6-7.1-.6-.5 0-.7-.1-.6-.6v-2.4c0-.4.1-.6.6-.6.7.1 1.5.1 2.2.1 3.7.3 7.2.9 10.7 2.2 1.8.7 3.5 1.5 4.8 3 .1.2.6.8 1.1 1.9.2-.3 0-.9-.1-1.2z"
-      style={{
-        fillRule: "evenodd",
-        clipRule: "evenodd",
-        fill: "#42a7d7",
-      }}
-    />
-    <path
-      d="M24.6 5.9c0-.4-.1-.6-.6-.6-2.4.1-4.7.1-7.1.2-1.7.1-3.1.7-3.6 2.5-.1.3-.1.7-.6.6-.5-.1-.4-.5-.3-.8 0-.5.1-.9.2-1.4.1-.7.2-1.3.4-2.1-1.1.6-2 1.2-3 1.7-.4.2-.5.5-.5.9-.1 1.4.1 2.8.1 4.3 0 .4.1.5.5.3.7-.3 1.4-.5 2.1-.7 3-.9 6-1.5 9-1.5.3 0-2.9.8-4.3 1.1-2.5.6-4.9 1.4-7 2.9-.4.3-.9.6-1.2 1 0 0-.2.2-.4.7 0 0 0 .1-.1.1-.1.1-.1.3-.1.4v.2c0 .3-.1.6 0 .9 0 0-.1-.8.9-1.8.3-.3.5-.5.8-.7.2.2.2.4.2.5.2 1.5.5 2.9 1.1 4.3.1.3.2.4.5.5.7.2 1.3.5 2 .6 3 .8 6.1 1 9.2 1.1.7 0 .8.2.8.8V24c0 .6-.1.8-.7.7-1-.1-1.9-.1-2.9-.2-3.8-.3-7.5-1-11-2.6-1.5-.7-3-1.5-4.1-2.9-.5-.5-.9-1.4-.9-1.4.2 1.4.9 2.3.9 2.3.5.8 1.2 1.4 2.1 1.9 1.8 1.2 3.8 1.9 5.9 2.5.5.1.9.4 1.1.8 2.1 3.6 5 6.5 8.3 8.9.8.6 1.4.4 1.9-.5.4-.8.4-1.7.5-2.5 0-8.4-.1-16.8-.1-25.1z"
-      style={{
-        fillRule: "evenodd",
-        clipRule: "evenodd",
-        fill: "#1a4275",
-      }}
-    />
-  </svg>
-
+      width="58"
+      height="38"
+      viewBox="0 0 58 38"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g filter="url(#filter0_d_12160_63483)">
+        <path
+          d="M26.3597 8.90501L23.3482 5.26385L21.9868 3.64116L18.9753 0H4L8.16667 5.26385H16.83L18.1914 6.84696L20.0891 8.90501L30.1964 21.0158L29 22.4406L17.6964 8.90501L15.7987 6.84696H9.52805L11.4257 8.90501L29 30L32.1353 26.2401L33.3317 24.8153L36.467 21.0158L26.3597 8.90501Z"
+          fill="url(#paint0_linear_12160_63483)"
+        />
+        <path
+          d="M41.9125 14.5251L46.5742 8.9051L48.2244 6.92621H35.5181L41.9125 14.5251Z"
+          fill="url(#paint1_linear_12160_63483)"
+        />
+        <path
+          d="M32.0115 5.30343H49.5858L49.6271 5.26385L50.9472 3.64116L54 0H21.3267L24.3795 3.64116L25.6997 5.26385L28.7525 8.90501L37.6634 19.591L40.7987 15.8311L40.8399 15.7916L33.3729 6.92612L32.0115 5.30343Z"
+          fill="url(#paint2_linear_12160_63483)"
+        />
+      </g>
+      <defs>
+        <filter
+          id="filter0_d_12160_63483"
+          x="0"
+          y="0"
+          width="58"
+          height="38"
+          filterUnits="userSpaceOnUse"
+          colorInterpolationFilters="sRGB"
+        >
+          <feFlood floodOpacity="0" result="BackgroundImageFix" />
+          <feColorMatrix
+            in="SourceAlpha"
+            type="matrix"
+            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+            result="hardAlpha"
+          />
+          <feOffset dy="4" />
+          <feGaussianBlur stdDeviation="2" />
+          <feComposite in2="hardAlpha" operator="out" />
+          <feColorMatrix
+            type="matrix"
+            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"
+          />
+          <feBlend
+            mode="normal"
+            in2="BackgroundImageFix"
+            result="effect1_dropShadow_12160_63483"
+          />
+          <feBlend
+            mode="normal"
+            in="SourceGraphic"
+            in2="effect1_dropShadow_12160_63483"
+            result="shape"
+          />
+        </filter>
+        <linearGradient
+          id="paint0_linear_12160_63483"
+          x1="34.914"
+          y1="-3.94043e-08"
+          x2="35.495"
+          y2="31.4707"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop offset="0.0955122" stopColor="#00C7F0" />
+          <stop offset="1" stopColor="#0157FD" />
+        </linearGradient>
+        <linearGradient
+          id="paint1_linear_12160_63483"
+          x1="34.914"
+          y1="-3.94043e-08"
+          x2="35.495"
+          y2="31.4707"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop offset="0.0955122" stopColor="#00C7F0" />
+          <stop offset="1" stopColor="#0157FD" />
+        </linearGradient>
+        <linearGradient
+          id="paint2_linear_12160_63483"
+          x1="34.914"
+          y1="-3.94043e-08"
+          x2="35.495"
+          y2="31.4707"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop offset="0.0955122" stopColor="#00C7F0" />
+          <stop offset="1" stopColor="#0157FD" />
+        </linearGradient>
+      </defs>
+    </svg>
   );
 };
 export const AuthLayout = () => {
@@ -67,12 +114,14 @@ export const AuthLayout = () => {
         <div className="h-full grid place-items-center">
           <div className="flex mt-4">
             <ToaeLogo />
-            <span className="dark:text-text-input-value text-h2 font-normal ml-1">
-              TOAE Security
+            <span className="dark:text-text-input-value text-white text-h2 font-normal ml-1">
+              Toae
             </span>
           </div>
           <Card
-            className={cn('w-[360px] px-14 py-12 my-4 rounded-[15px] dark:bg-bg-page/70')}
+            className={cn(
+              'w-[360px] px-14 py-12 my-4 rounded-[15px] bg-bg-page opacity-70',
+            )}
           >
             <Outlet />
           </Card>

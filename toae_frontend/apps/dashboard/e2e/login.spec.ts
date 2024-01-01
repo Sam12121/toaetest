@@ -45,8 +45,8 @@ test.describe('Login', () => {
   test('redirect to home page', async ({ page, baseURL }) => {
     const login = new LoginPage(page);
     await login.goto(`${baseURL}/auth/login`);
-    await login.enterEmail('user@toaesecurity.com');
-    await login.enterPassword('UserToae@12');
+    await login.enterEmail('milan@toae.io');
+    await login.enterPassword('MilanToae@2111');
     await login.submit();
     await expect(page).toHaveURL(/.*onboard/);
   });

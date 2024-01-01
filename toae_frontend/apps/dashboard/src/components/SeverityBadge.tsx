@@ -3,7 +3,8 @@ import { cn } from 'tailwind-preset';
 
 import { DFLink } from '@/components/DFLink';
 import { SeverityScoreIcon } from '@/components/icons/common/SeverityScore';
-import { getColorForCVSSScore, POSTURE_STATUS_COLORS } from '@/constants/charts';
+import { getColorForCVSSScore, getPostureColor } from '@/constants/charts';
+import { useTheme } from '@/theme/ThemeContext';
 import { PostureSeverityType } from '@/types/common';
 
 export const SeverityBadge = ({
@@ -16,13 +17,14 @@ export const SeverityBadge = ({
   return (
     <div
       className={cn(
-        'flex items-center capitalize justify-center font-semibold leading-4 text-[11px] dark:text-text-text-inverse py-0.5 max-w-[62px] min-w-[62px]',
-        'dark:bg-df-gray-500 rounded-[5px]',
+        'flex items-center capitalize justify-center font-semibold leading-4 text-[11px] dark:text-text-text-inverse text-text-text-inverse py-0.5 max-w-[62px] min-w-[62px]',
+        ' rounded-[5px]',
         {
-          'dark:bg-status-error': severity === 'critical',
-          'dark:bg-chart-orange': severity === 'high',
-          'dark:bg-status-warning': severity === 'medium',
-          'dark:bg-chart-yellow1': severity === 'low',
+          'bg-status-error': severity === 'critical',
+          'bg-chart-orange text-text-input-value': severity === 'high',
+          'bg-status-warning text-text-input-value': severity === 'medium',
+          'bg-chart-yellow1 text-text-input-value': severity === 'low',
+          'dark:bg-df-gray-500 bg-df-gray-600': !severity || severity === 'unknown',
         },
         className,
       )}
@@ -39,15 +41,19 @@ export const PostureStatusBadge = ({
   status: PostureSeverityType;
   className?: string;
 }) => {
+  const { mode } = useTheme();
   return (
     <div
       className={cn(
-        'flex items-center capitalize justify-center font-semibold leading-4 text-[11px] dark:text-text-text-inverse py-0.5 max-w-[62px] min-w-[62px]',
-        'dark:bg-df-gray-500 rounded-[5px]',
+        'flex items-center capitalize justify-center font-semibold leading-4 text-[11px] dark:text-text-text-inverse text-text-input-value py-0.5 max-w-[62px] min-w-[62px]',
+        'bg-df-gray-500 rounded-[5px]',
+        {
+          'text-text-text-inverse': status === 'alarm' || status === 'delete',
+        },
         className,
       )}
       style={{
-        backgroundColor: POSTURE_STATUS_COLORS[status],
+        backgroundColor: getPostureColor(mode)[status],
       }}
     >
       {status}
@@ -93,18 +99,20 @@ export const SeverityLegend = ({
   return (
     <div
       className={cn(
-        'flex items-center gap-2 flex-nowrap text-p7 dark:text-text-text-and-icon capitalize',
+        'flex items-center gap-2 flex-nowrap text-p7 text-text-text-and-icon capitalize',
         className,
       )}
     >
       <div
         className={cn(
-          'rounded-full h-3 w-3 shrink-0 dark:bg-df-gray-500',
+          'rounded-full h-3 w-3 shrink-0',
           {
-            'dark:bg-status-error': severity === 'critical',
-            'dark:bg-chart-orange': severity === 'high',
-            'dark:bg-status-warning': severity === 'medium',
-            'dark:bg-chart-yellow1': severity === 'low',
+            'bg-status-error': severity === 'critical',
+            'bg-chart-orange text-text-input-value': severity === 'high',
+            'bg-status-warning text-text-input-value': severity === 'medium',
+            'bg-chart-yellow1 text-text-input-value': severity === 'low',
+            'dark:bg-df-gray-500 bg-df-gray-600 text-text-input-value':
+              !severity || severity === 'unknown',
           },
           iconClassName,
         )}

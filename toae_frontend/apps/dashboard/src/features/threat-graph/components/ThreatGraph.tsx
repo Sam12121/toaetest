@@ -1,6 +1,6 @@
 import '@/features/threat-graph/utils/threat-graph-custom-node';
 
-import { IEdge, INode, Modes } from '@antv/g6';
+import { IEdge, INode } from '@antv/g6';
 import { useSuspenseQuery } from '@suspensive/react-query';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
@@ -17,6 +17,7 @@ import {
 } from '@/features/topology/types/graph';
 import { getNodeImage } from '@/features/topology/utils/graph-styles';
 import { queries } from '@/queries';
+import { Mode, useTheme } from '@/theme/ThemeContext';
 
 const setActiveState = (item: INode | IEdge, active: boolean) => {
   if (active) {
@@ -53,6 +54,7 @@ export const ThreatGraphComponent = ({
   onNodeClick?: (model: ThreatGraphNodeModelConfig | undefined) => void;
   options?: G6GraphOptionsWithoutContainer;
 }) => {
+  const { mode } = useTheme();
   const [measureRef, { height, width }] = useMeasure<HTMLDivElement>();
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
 
@@ -61,7 +63,7 @@ export const ThreatGraphComponent = ({
 
   useEffect(() => {
     if (!graph || !data || isGraphEmpty(data)) return;
-    graph.data(getGraphData(data));
+    graph.data(getGraphData(mode, data));
     graph.render();
   }, [graph, data]);
 
@@ -104,13 +106,15 @@ export const ThreatGraphComponent = ({
           className="absolute inset-0 flex gap-2 flex-col items-center justify-center p-6"
           style={{
             background:
-              'radial-gradient(48.55% 48.55% at 50.04% 51.45%, #16253B 0%, #0B121E 100%)',
+              mode === 'dark'
+                ? 'linear-gradient(0deg, rgba(22, 37, 59, 0.60) 0%, rgba(22, 37, 59, 0.60) 100%), radial-gradient(48.55% 48.55% at 50.04% 51.45%, rgba(27, 47, 77, 0.35) 0%, #020617 100%)'
+                : '',
           }}
         >
-          <div className="w-8 h-8 text-blue-600 dark:text-status-info">
+          <div className="w-8 h-8 text-status-info">
             <ErrorStandardSolidIcon />
           </div>
-          <div className="text-gray-600 dark:text-text-text-and-icon text-lg text-center">
+          <div className="text-text-text-and-icon text-lg text-center">
             No attack paths found, please run some scans to discover attack paths.
           </div>
         </div>
@@ -129,7 +133,10 @@ function isGraphEmpty(data?: { [key: string]: GraphProviderThreatGraph }): boole
   );
 }
 
-function getGraphData(data: { [key: string]: GraphProviderThreatGraph }): G6GraphData {
+function getGraphData(
+  theme: Mode,
+  data: { [key: string]: GraphProviderThreatGraph },
+): G6GraphData {
   const g6Data: G6GraphData = {
     nodes: [],
     edges: [],
@@ -161,7 +168,7 @@ function getGraphData(data: { [key: string]: GraphProviderThreatGraph }): G6Grap
     cloudId: 'NA',
     icon: {
       show: true,
-      img: getNodeImage('pseudo')!,
+      img: getNodeImage(theme, 'pseudo')!,
       width: 40,
       height: 40,
     },
@@ -187,7 +194,9 @@ function getGraphData(data: { [key: string]: GraphProviderThreatGraph }): G6Grap
       nodeType: cloudRootId,
       icon: {
         show: true,
-        img: getNodeImage('cloud_provider', cloudKey) ?? getNodeImage('cloud_provider'),
+        img:
+          getNodeImage(theme, 'cloud_provider', cloudKey) ??
+          getNodeImage(theme, 'cloud_provider'),
         width: 30,
         height: 30,
       },
@@ -228,14 +237,16 @@ function getGraphData(data: { [key: string]: GraphProviderThreatGraph }): G6Grap
               singleGraph.count ? ` (${singleGraph.count})` : ''
             }`,
             issuesCount:
-              singleGraph.warn_alarm_count +
+              singleGraph.compliance_count +
               singleGraph.secrets_count +
               singleGraph.vulnerability_count +
-              singleGraph.cloud_warn_alarm_count,
+              singleGraph.cloud_compliance_count,
             nodeType: singleGraph.node_type,
             icon: {
               show: true,
-              img: getNodeImage(singleGraph.node_type) ?? getNodeImage('cloud_provider')!,
+              img:
+                getNodeImage(theme, singleGraph.node_type) ??
+                getNodeImage(theme, 'cloud_provider')!,
               width: 30,
               height: 30,
               ...{ cursor: 'pointer' },

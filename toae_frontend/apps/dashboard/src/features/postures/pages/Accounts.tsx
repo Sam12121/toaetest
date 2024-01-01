@@ -33,7 +33,7 @@ import {
   Tabs,
 } from 'ui-components';
 
-import { getCloudNodesApiClient, getScanResultsApiClient } from '@/api/api';
+import { getScanResultsApiClient } from '@/api/api';
 import {
   ModelBulkDeleteScansRequestScanTypeEnum,
   ModelCloudNodeAccountInfo,
@@ -51,7 +51,6 @@ import { EllipsisIcon } from '@/components/icons/common/Ellipsis';
 import { ErrorStandardLineIcon } from '@/components/icons/common/ErrorStandardLine';
 import { FilterIcon } from '@/components/icons/common/Filter';
 import { PlusIcon } from '@/components/icons/common/Plus';
-import { RefreshIcon } from '@/components/icons/common/Refresh';
 import { TimesIcon } from '@/components/icons/common/Times';
 import { TrashLineIcon } from '@/components/icons/common/TrashLine';
 import { CLOUDS } from '@/components/scan-configure-forms/ComplianceScanConfigureForm';
@@ -67,6 +66,7 @@ import {
 } from '@/features/postures/pages/Posture';
 import { SuccessModalContent } from '@/features/settings/components/SuccessModalContent';
 import { invalidateAllQueries, queries } from '@/queries';
+import { useTheme } from '@/theme/ThemeContext';
 import {
   ComplianceScanNodeTypeEnum,
   isCloudNode,
@@ -94,7 +94,6 @@ import { usePageNavigation } from '@/utils/usePageNavigation';
 
 enum ActionEnumType {
   DELETE = 'delete',
-  REFRESH_ACCOUNT = 'refresh_account',
   START_SCAN = 'start_scan',
 }
 
@@ -138,7 +137,6 @@ const action = async ({
   const formData = await request.formData();
   const actionType = formData.get('actionType');
   const scanIds = formData.getAll('scanId');
-  const accountIds = formData.getAll('accountId[]') as string[];
   const scanType = formData.get('scanType') as ModelBulkDeleteScansRequestScanTypeEnum;
   if (!actionType) {
     throw new Error('Invalid action');
@@ -180,30 +178,6 @@ const action = async ({
         };
       }
       throw result.error;
-    }
-  } else if (actionType === ActionEnumType.REFRESH_ACCOUNT) {
-    const refreshCloudNodeAccountApi = apiWrapper({
-      fn: getCloudNodesApiClient().refreshCloudNodeAccount,
-    });
-    const refreshAccountRresult = await refreshCloudNodeAccountApi({
-      modelCloudAccountRefreshReq: {
-        node_ids: accountIds,
-      },
-    });
-    if (!refreshAccountRresult.ok) {
-      if (refreshAccountRresult.error.response.status === 400) {
-        const { message } = await getResponseErrors(refreshAccountRresult.error);
-        return {
-          success: false,
-          message,
-        };
-      } else if (refreshAccountRresult.error.response.status === 403) {
-        const message = await get403Message(refreshAccountRresult.error);
-        return {
-          message,
-        };
-      }
-      throw refreshAccountRresult.error;
     }
   }
   invalidateAllQueries();
@@ -450,7 +424,7 @@ const DeleteConfirmationModal = ({
       onOpenChange={() => setShowDialog(false)}
       title={
         !fetcher.data?.success ? (
-          <div className="flex gap-3 items-center dark:text-status-error">
+          <div className="flex gap-3 items-center text-status-error">
             <span className="h-6 w-6 shrink-0">
               <ErrorStandardLineIcon />
             </span>
@@ -491,7 +465,7 @@ const DeleteConfirmationModal = ({
           <br />
           <span>Are you sure you want to delete?</span>
           {fetcher.data?.message && (
-            <p className="mt-2 text-p7 dark:text-status-error">{fetcher.data?.message}</p>
+            <p className="mt-2 text-p7 text-status-error">{fetcher.data?.message}</p>
           )}
         </div>
       ) : (
@@ -624,22 +598,12 @@ const ActionDropdown = ({
             >
               <span
                 className={cn('flex items-center gap-x-2', {
-                  'text-red-700 dark:text-status-error': scanId,
-                  'dark:text-df-gray-600': !scanId || !nodeType,
+                  'text-status-error': scanId,
+                  'dark:text-df-gray-600 text-df-gray-400': !scanId || !nodeType,
                 })}
               >
                 Delete latest scan
               </span>
-            </DropdownItem>
-            <DropdownItem
-              onSelect={() => {
-                if (!nodeId) {
-                  throw new Error('Account id is required to refresh');
-                }
-                onTableAction([nodeId], ActionEnumType.REFRESH_ACCOUNT);
-              }}
-            >
-              Refresh account
             </DropdownItem>
           </>
         }
@@ -653,21 +617,17 @@ const ActionDropdown = ({
 const BulkActions = ({
   onClick,
   onDelete,
-  onRefreshAccount,
   onCancelScan,
   disableStartScan,
   disableCancelScan,
   disableDeleteScan,
-  disableRefreshAccount,
 }: {
   onClick?: React.MouseEventHandler<HTMLButtonElement> | undefined;
   onCancelScan?: React.MouseEventHandler<HTMLButtonElement> | undefined;
   onDelete?: React.MouseEventHandler<HTMLButtonElement> | undefined;
-  onRefreshAccount?: React.MouseEventHandler<HTMLButtonElement> | undefined;
   disableStartScan: boolean;
   disableCancelScan: boolean;
   disableDeleteScan: boolean;
-  disableRefreshAccount: boolean;
 }) => {
   const { navigate } = usePageNavigation();
   const params = useParams();
@@ -721,15 +681,6 @@ const BulkActions = ({
       >
         Delete scan
       </Button>
-      <Button
-        variant="flat"
-        startIcon={<RefreshIcon />}
-        size="sm"
-        disabled={disableRefreshAccount}
-        onClick={onRefreshAccount}
-      >
-        Refresh account
-      </Button>
     </>
   );
 };
@@ -747,6 +698,7 @@ const AccountTable = ({
   rowSelectionState: RowSelectionState;
   onTableAction: (ids: string[], actionType: ActionEnumType) => void;
 }) => {
+  const { mode: theme } = useTheme();
   const [searchParams, setSearchParams] = useSearchParams();
   const { data } = usePostureAccounts();
 
@@ -890,7 +842,7 @@ const AccountTable = ({
             return (
               <span
                 style={{
-                  color: getColorForCompliancePercent(percent),
+                  color: getColorForCompliancePercent(theme, percent),
                 }}
               >
                 {formatPercentage(percent, {
@@ -1051,7 +1003,7 @@ const Header = () => {
   });
 
   return (
-    <div className="flex pl-4 pr-4 py-2 w-full items-center bg-white dark:bg-bg-breadcrumb-bar">
+    <div className="flex pl-4 pr-4 py-2 w-full items-center bg-bg-breadcrumb-bar dark:border-none border-b border-bg-grid-border">
       <Breadcrumb>
         <BreadcrumbLink asChild icon={<PostureIcon />} isLink>
           <DFLink to={'/posture'} unstyled>
@@ -1141,14 +1093,6 @@ const Accounts = () => {
         setNodeIdsToScan(nodeIds);
         setSelectedScanType(scanType);
         return;
-      } else if (actionType === ActionEnumType.REFRESH_ACCOUNT) {
-        const formData = new FormData();
-        formData.append('actionType', ActionEnumType.REFRESH_ACCOUNT);
-        nodeIds.forEach((nodeId) => formData.append('accountId[]', nodeId));
-        fetcher.submit(formData, {
-          method: 'post',
-        });
-        return;
       }
     },
     [fetcher],
@@ -1174,15 +1118,6 @@ const Accounts = () => {
             disableStartScan={nodeIdsToScan.length == 0}
             disableCancelScan={nodeIdsToCancelScan.length === 0}
             disableDeleteScan={nodeIdsToDeleteScan.length === 0}
-            disableRefreshAccount={selectedRows.length === 0}
-            onRefreshAccount={() => {
-              const formData = new FormData();
-              formData.append('actionType', ActionEnumType.REFRESH_ACCOUNT);
-              selectedRows.forEach((row) => formData.append('accountId[]', row.nodeId));
-              fetcher.submit(formData, {
-                method: 'post',
-              });
-            }}
             onClick={() => {
               setSelectedScanType(scanType);
             }}

@@ -285,7 +285,7 @@ const UniqueTable = () => {
             className="flex items-center gap-x-2"
           >
             <div className="p-2 bg-gray-100 dark:bg-gray-500/10 rounded-lg shrink-0">
-              <div className="w-3 h-3 dark:text-status-error">
+              <div className="w-3 h-3 text-status-error">
                 <VulnerabilityIcon />
               </div>
             </div>
@@ -454,7 +454,7 @@ const UniqueVulnerabilities = () => {
 
   return (
     <div>
-      <div className="flex pl-4 pr-4 py-2 w-full items-center bg-white dark:bg-bg-breadcrumb-bar">
+      <div className="flex pl-4 pr-4 py-2 w-full items-center bg-bg-breadcrumb-bar dark:border-none border-b border-bg-grid-border">
         <Breadcrumb>
           <BreadcrumbLink asChild icon={<VulnerabilityIcon />} isLink>
             <DFLink to={'/vulnerability'} unstyled>

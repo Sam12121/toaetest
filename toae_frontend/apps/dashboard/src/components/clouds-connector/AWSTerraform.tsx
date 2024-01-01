@@ -23,7 +23,7 @@ export const AWSTerraform = memo(() => {
           <div className="text-p7 dark:text-text-text-and-icon">
             Connect to your AWS Cloud Account via Terraform. Find out more information by{' '}
             <DFLink
-              href={`https://toaesecurity.com/contact/docs/v2.1/cloudscanner/aws#terraform`}
+              href={`https://community.toae.io/threatmapper/docs/v2.0/cloudscanner/aws#terraform`}
               target="_blank"
               rel="noreferrer"
               className="mt-2"

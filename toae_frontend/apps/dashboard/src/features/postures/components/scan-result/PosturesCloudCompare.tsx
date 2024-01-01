@@ -164,8 +164,8 @@ const CompareCountWidget = ({
           <>
             <div
               className={cn('h-5 w-5', {
-                'dark:text-status-success rotate-180': isDeleted,
-                'dark:text-status-error': !isDeleted,
+                'text-status-success rotate-180': isDeleted,
+                'text-status-error': !isDeleted,
               })}
             >
               <ArrowLine />
@@ -255,7 +255,7 @@ export const PosturesCloudCompare = ({
       >
         <SlidingModalCloseButton />
         <SlidingModalHeader>
-          <div className="p-4 text-h3 dark:text-text-text-and-icon dark:bg-bg-breadcrumb-bar ">
+          <div className="p-4 text-h3 text-text-text-and-icon dark:bg-bg-breadcrumb-bar bg-[#f6f7f9]">
             <div className="overflow-hidden">
               <TruncatedText text="Scan comparision" />
             </div>

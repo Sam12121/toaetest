@@ -1,5 +1,5 @@
 FROM nginx:1.23-alpine
-MAINTAINER TOAE Security Inc
+MAINTAINER Toae Inc
 LABEL toae.role=system
 
 RUN apk upgrade --no-cache -U \

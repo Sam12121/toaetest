@@ -23,7 +23,7 @@ export const GoogleCRConnectorForm = ({
       <div className="text-p4 dark:text-text-input-value">
         Connect to your Google Cloud Registry. Find out more information by{' '}
         <DFLink
-          href={`https://toaesecurity.com/contact/docs/v2.1/registries/`}
+          href={`https://community.toae.io/threatmapper/docs/v2.0/registries/`}
           target="_blank"
           rel="noreferrer"
         >
@@ -63,9 +63,7 @@ export const GoogleCRConnectorForm = ({
           helperText={fieldErrors?.['service_account_json']}
         />
       </div>
-      {errorMessage && (
-        <p className="mt-4 dark:text-status-error text-p7">{errorMessage}</p>
-      )}
+      {errorMessage && <p className="mt-4 text-status-error text-p7">{errorMessage}</p>}
     </>
   );
 };

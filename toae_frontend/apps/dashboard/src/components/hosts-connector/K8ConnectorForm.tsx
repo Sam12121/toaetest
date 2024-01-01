@@ -144,7 +144,6 @@ const InformationForm = ({
   --set clusterName=${_clusterName} \\
   ${runtimeCommand} \\
   ${sockCommand}="${_socketPath}" \\
-  --set logLevel="info" \\
   --namespace ${_namespace} \\
   --create-namespace`;
 
@@ -204,9 +203,7 @@ const InformationForm = ({
           />
         </div>
       </div>
-      <div className="text-red-600 dark:text-status-error text-p7">
-        {error && <span>{error}</span>}
-      </div>
+      <div className="text-status-error text-p7">{error && <span>{error}</span>}</div>
     </div>
   );
 };
@@ -227,7 +224,7 @@ const FirstCommand = () => {
           variant="flat"
           onClick={() => {
             copy(
-              'helm repo add toae https://toae-helm-charts.s3.amazonaws.com/threat',
+              'helm repo add toae https://toae-helm-charts.s3.amazonaws.com/threatmapper',
             );
           }}
         />
@@ -326,7 +323,6 @@ helm install toae-agent toae/toae-agent \\
   --set clusterName=${defaultCluster} \\
   ${containerRuntimeDropdown[0].value} \\
   ${socketMap.containerd.command}="${defaultSocketPath}" \\
-  --set logLevel="info" \\
   --namespace ${defaultNamespace} \\
   --create-namespace`);
 
@@ -349,7 +345,7 @@ helm install toae-agent toae/toae-agent \\
           <div className="text-p7 dark:text-text-text-and-icon">
             Deploy Toae agent Kubernetes Scanner. Find out more information by{' '}
             <DFLink
-              href={`https://toaesecurity.com/contact/threatmapper/docs/v2.1/sensors/kubernetes`}
+              href={`https://community.toae.io/threatmapper/docs/v2.0/sensors/kubernetes`}
               target="_blank"
               rel="noreferrer"
               className="mt-2"

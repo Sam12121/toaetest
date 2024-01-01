@@ -71,7 +71,7 @@ import {
 import { PostureStatusBadge } from '@/components/SeverityBadge';
 import { PostureIcon } from '@/components/sideNavigation/icons/Posture';
 import { TruncatedText } from '@/components/TruncatedText';
-import { POSTURE_STATUS_COLORS } from '@/constants/charts';
+import { getPostureColor } from '@/constants/charts';
 import { useDownloadScan } from '@/features/common/data-component/downloadScanAction';
 import { useGetCloudFilters } from '@/features/common/data-component/searchCloudFiltersApiLoader';
 import { PostureScanResultsPieChart } from '@/features/postures/components/scan-result/PostureScanResultsPieChart';
@@ -79,6 +79,7 @@ import { PosturesCloudCompare } from '@/features/postures/components/scan-result
 import { providersToNameMapping } from '@/features/postures/pages/Posture';
 import { SuccessModalContent } from '@/features/settings/components/SuccessModalContent';
 import { invalidateAllQueries, queries } from '@/queries';
+import { useTheme } from '@/theme/ThemeContext';
 import {
   ComplianceScanNodeTypeEnum,
   PostureSeverityType,
@@ -334,7 +335,7 @@ const DeleteConfirmationModal = ({
       onOpenChange={() => setShowDialog(false)}
       title={
         !fetcher.data?.success ? (
-          <div className="flex gap-3 items-center dark:text-status-error">
+          <div className="flex gap-3 items-center text-status-error">
             <span className="h-6 w-6 shrink-0">
               <ErrorStandardLineIcon />
             </span>
@@ -375,7 +376,7 @@ const DeleteConfirmationModal = ({
           <br />
           <span>Are you sure you want to delete?</span>
           {fetcher.data?.message && (
-            <p className="text-p7 dark:text-status-error">{fetcher.data?.message}</p>
+            <p className="text-p7 text-status-error">{fetcher.data?.message}</p>
           )}
           <div className="flex items-center justify-right gap-4"></div>
         </div>
@@ -420,7 +421,7 @@ const DeleteScanConfirmationModal = ({
       size="s"
       title={
         !fetcher.data?.success ? (
-          <div className="flex gap-3 items-center dark:text-status-error">
+          <div className="flex gap-3 items-center text-status-error">
             <span className="h-6 w-6 shrink-0">
               <ErrorStandardLineIcon />
             </span>
@@ -461,7 +462,7 @@ const DeleteScanConfirmationModal = ({
             Are you sure you want to delete this scan? This action cannot be undone.
           </span>
           {fetcher.data?.message && (
-            <p className="mt-2 text-p7 dark:text-status-error">{fetcher.data?.message}</p>
+            <p className="mt-2 text-p7 text-status-error">{fetcher.data?.message}</p>
           )}
         </div>
       ) : (
@@ -519,9 +520,7 @@ const NotifyModal = ({
               <Checkbox label="Yes notify them separately" name="notifyIndividual" />
             </div>
             {fetcher.data?.message && (
-              <p className="mt-2 text-p7 dark:text-status-error">
-                {fetcher.data?.message}
-              </p>
+              <p className="mt-2 text-p7 text-status-error">{fetcher.data?.message}</p>
             )}
           </div>
           <div className={'flex gap-x-3 justify-end pt-3 mx-2'}>
@@ -553,17 +552,15 @@ const NotifyModal = ({
 const ScanHistory = () => {
   return (
     <div className="flex items-center h-12">
-      <span className="h-3.5 w-3.5 dark:text-text-input-value">
+      <span className="h-3.5 w-3.5 text-text-input-value">
         <ClockLineIcon />
       </span>
-      <span className="pl-2 pr-3 text-t3 dark:text-text-text-and-icon uppercase">
+      <span className="pl-2 pr-3 text-t3 text-text-text-and-icon uppercase">
         scan time
       </span>
       <Suspense
         fallback={
-          <div className="dark:text-text-text-and-icon text-p9">
-            Fetching scan history...
-          </div>
+          <div className="text-text-text-and-icon text-p9">Fetching scan history...</div>
         }
       >
         <HistoryControls />
@@ -842,7 +839,7 @@ const ActionDropdown = ({
               setIdsToDelete(ids);
               setShowDeleteDialog(true);
             }}
-            className="dark:text-status-error dark:hover:text-[#C45268]"
+            className="text-status-error hover:text-[#C45268]"
           >
             Delete
           </DropdownItem>
@@ -1516,7 +1513,7 @@ const CloudPostureTable = ({
 
 const Header = () => {
   return (
-    <div className="flex pl-4 pr-4 py-2 w-full items-center bg-white dark:bg-bg-breadcrumb-bar">
+    <div className="flex pl-4 pr-4 py-2 w-full items-center bg-bg-breadcrumb-bar dark:border-none border-b border-bg-grid-border">
       <>
         <Breadcrumb>
           <BreadcrumbLink asChild icon={<PostureIcon />} isLink>
@@ -1572,6 +1569,7 @@ const StatusesCount = ({
     [k: string]: number;
   };
 }) => {
+  const { mode } = useTheme();
   const [, setSearchParams] = useSearchParams();
 
   return (
@@ -1579,7 +1577,7 @@ const StatusesCount = ({
       <div className="flex justify-evenly gap-8">
         {Object.keys(statusCounts)?.map((key: string) => {
           return (
-            <div key={key} className="col-span-2 dark:text-text-text-and-icon">
+            <div key={key} className="col-span-2 text-text-text-and-icon">
               <span className="text-p1">{capitalize(key)}</span>
               <button
                 className="flex flex-1 max-w-[160px] gap-1 items-center"
@@ -1598,10 +1596,10 @@ const StatusesCount = ({
                   className="h-4 w-4 rounded-full"
                   style={{
                     backgroundColor:
-                      POSTURE_STATUS_COLORS[key.toLowerCase() as PostureSeverityType],
+                      getPostureColor(mode)[key.toLowerCase() as PostureSeverityType],
                   }}
                 ></span>
-                <span className="text-h1 dark:text-text-input-value pl-1.5">
+                <span className="text-h1 text-text-input-value pl-1.5">
                   {abbreviateNumber(statusCounts?.[key])}
                 </span>
               </button>
@@ -1705,10 +1703,10 @@ const SeverityCountWidget = () => {
         </div>
       </ScanStatusWrapper>
       {isScanComplete(scanStatusResult?.status ?? '') ? (
-        <div className="col-span-2 dark:text-text-text-and-icon">
+        <div className="col-span-2 text-text-text-and-icon">
           <span className="text-p1">Total compliances</span>
           <button
-            className="flex flex-1 max-w-[160px] gap-1 items-center dark:text-text-input-value"
+            className="flex flex-1 max-w-[160px] gap-1 items-center text-text-input-value"
             onClick={() => {
               setSearchParams((prev) => {
                 prev.delete('status');
@@ -1720,7 +1718,7 @@ const SeverityCountWidget = () => {
             {keys(statusCounts).length > 0 ? (
               <>
                 <TaskIcon />
-                <span className="text-h1 dark:text-text-input pl-1.5">
+                <span className="text-h1 text-text-input pl-1.5">
                   {abbreviateNumber(total)}
                 </span>
               </>
@@ -1731,7 +1729,7 @@ const SeverityCountWidget = () => {
         </div>
       ) : null}
 
-      <div className="w-px h-[60%] dark:bg-bg-grid-border" />
+      <div className="w-px h-[60%] bg-bg-grid-border" />
 
       <ScanStatusWrapper
         scanStatusResult={scanStatusResult}

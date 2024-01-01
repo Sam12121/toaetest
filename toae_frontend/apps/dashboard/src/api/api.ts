@@ -252,7 +252,6 @@ export function getCloudNodesApiClient() {
   return {
     listCloudNodeAccount: cloudNodesApi.listCloudNodeAccount.bind(cloudNodesApi),
     listCloudProviders: cloudNodesApi.listCloudProviders.bind(cloudNodesApi),
-    refreshCloudNodeAccount: cloudNodesApi.refreshCloudNodeAccount.bind(cloudNodesApi),
   };
 }
 
@@ -305,7 +304,6 @@ export function getIntegrationApiClient() {
 
   return {
     addIntegration: integrationApi.addIntegration.bind(integrationApi),
-    updateIntegration: integrationApi.updateIntegration.bind(integrationApi),
     listIntegration: integrationApi.listIntegration.bind(integrationApi),
     deleteIntegration: integrationApi.deleteIntegration.bind(integrationApi),
   };

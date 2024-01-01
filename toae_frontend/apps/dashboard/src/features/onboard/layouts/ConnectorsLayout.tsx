@@ -29,7 +29,7 @@ export const ConnectorsLayout = () => {
     <>
       <ConnectorHeader
         title="Let's Get Started"
-        description="TOAE Security's unique approach learns the active topology of your application and classifies vulnerabilities based on the attack surfaces that your application presents."
+        description="ThreatMapper's unique approach learns the active topology of your application and classifies vulnerabilities based on the attack surfaces that your application presents."
       />
       <Outlet />
     </>

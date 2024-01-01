@@ -47,7 +47,6 @@ const Command = () => {
   -v /var/log/fenced \\
   -v /var/run/docker.sock:/var/run/docker.sock \\
   -v /:/fenced/mnt/host/:ro \\
-  -e DF_LOG_LEVEL="info" \\
   -e USER_DEFINED_TAGS="" \\
   -e MGMT_CONSOLE_URL="${window.location.host ?? '---CONSOLE-IP---'}" \\
   -e MGMT_CONSOLE_PORT="443" \\
@@ -114,7 +113,7 @@ export const LinuxConnectorForm = () => {
         <div className="text-p7 dark:text-text-text-and-icon">
           Connect to Linux VM. Find out more information by{' '}
           <DFLink
-            href={`https://toaesecurity.com/contact/docs/v2.1/sensors/docker`}
+            href={`https://community.toae.io/threatmapper/docs/v2.0/sensors/docker`}
             target="_blank"
             rel="noreferrer"
             className="mt-2"

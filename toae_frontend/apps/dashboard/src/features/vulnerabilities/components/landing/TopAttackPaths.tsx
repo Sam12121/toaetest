@@ -17,8 +17,10 @@ import { G6GraphData, G6Node } from '@/features/topology/types/graph';
 import { getNodeImage } from '@/features/topology/utils/graph-styles';
 import { CardHeader } from '@/features/vulnerabilities/components/landing/CardHeader';
 import { queries } from '@/queries';
+import { Mode, useTheme } from '@/theme/ThemeContext';
 
 export const TopAttackPaths = ({ nodeIds }: { nodeIds?: string[] }) => {
+  const { mode } = useTheme();
   return (
     <Card className="rounded min-h-[450px] h-full flex flex-col">
       <CardHeader
@@ -29,7 +31,10 @@ export const TopAttackPaths = ({ nodeIds }: { nodeIds?: string[] }) => {
       <div
         className="flex-1"
         style={{
-          background: `linear-gradient(0deg, rgba(22, 37, 59, 0.6), rgba(22, 37, 59, 0.6)), radial-gradient(48.55% 48.55% at 50.04% 51.45%, rgba(27, 47, 77, 0.35) 0%, #020617 100%)`,
+          background:
+            mode === 'dark'
+              ? 'linear-gradient(0deg, rgba(22, 37, 59, 0.6), rgba(22, 37, 59, 0.6)), radial-gradient(48.55% 48.55% at 50.04% 51.45%, rgba(27, 47, 77, 0.35) 0%, #020617 100%)'
+              : '',
         }}
       >
         <Suspense
@@ -125,6 +130,7 @@ export const VulnerabilityThreatGraph = ({
   direction?: 'LR' | 'TB';
   hideToolbar?: boolean;
 }) => {
+  const { mode } = useTheme();
   const [measureRef, { height, width }] = useMeasure<HTMLDivElement>();
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
   const { graph } = useG6Graph(container, {
@@ -151,7 +157,7 @@ export const VulnerabilityThreatGraph = ({
 
   useEffect(() => {
     if (!graph || !data || isGraphEmpty(data)) return;
-    graph.data(getGraphData(data, direction));
+    graph.data(getGraphData(mode, data, direction));
     graph.render();
   }, [graph, data]);
 
@@ -185,7 +191,7 @@ export const VulnerabilityThreatGraph = ({
     <div className="h-full w-full relative select-none" ref={measureRef}>
       <div className="absolute inset-0" ref={setContainer} />
       {isGraphEmpty(data) ? (
-        <div className="absolute inset-0 flex gap-2 items-center justify-center p-6 dark:text-text-text-and-icon">
+        <div className="absolute inset-0 flex gap-2 items-center justify-center p-6 text-text-text-and-icon">
           <div className="h-6 w-6 shrink-0">
             <ErrorStandardLineIcon />
           </div>
@@ -205,7 +211,11 @@ function useVulnerabilityThreatGraphData(nodeIds: string[] = []) {
   });
 }
 
-function getGraphData(data: GraphIndividualThreatGraph[], direction: 'LR' | 'TB') {
+function getGraphData(
+  theme: Mode,
+  data: GraphIndividualThreatGraph[],
+  direction: 'LR' | 'TB',
+) {
   const g6Data: G6GraphData = {
     nodes: [],
     edges: [],
@@ -224,7 +234,7 @@ function getGraphData(data: GraphIndividualThreatGraph[], direction: 'LR' | 'TB'
     label: 'The Internet',
     icon: {
       show: true,
-      img: getNodeImage('pseudo')!,
+      img: getNodeImage(theme, 'pseudo')!,
       width: 40,
       height: 40,
     },
@@ -253,7 +263,7 @@ function getGraphData(data: GraphIndividualThreatGraph[], direction: 'LR' | 'TB'
               label: truncate(node, { length: 20 }),
               icon: {
                 show: true,
-                img: getNodeImage('host')!,
+                img: getNodeImage(theme, 'host')!,
                 width: 30,
                 height: 30,
               },
