@@ -1,4 +1,4 @@
-name: Deploy to k8s
+name: Deploy to GKE
 
 on:
   workflow_dispatch:
@@ -15,25 +15,32 @@ on:
 
 env:
   DF_IMG_TAG: ${{ inputs.tag || github.sha }}
+  GKE_CLUSTER: "autopilot-cluster-1"  # Replace with your GKE cluster name
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-
       - name: Checkout repo
         uses: actions/checkout@v2
 
+      - name: Set up Google Cloud CLI
+        uses: google-github-actions/setup-gcloud@v0.5.0
+        with:
+          version: 'latest'
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+
+      - name: Install gke-gcloud-auth-plugin
+        run: |
+          gcloud components install kubectl
+
+      - name: Configure kubectl
+        run: |
+          gcloud container clusters get-credentials $GKE_CLUSTER --region=us-central1
+
       - name: Helm installer
         uses: Azure/setup-helm@v3
-
-      - name: Install doctl
-        uses: digitalocean/action-doctl@v2
-        with:
-          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-
-      - name: Save DigitalOcean kubeconfig with short-lived credentials
-        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 k8s-cicd-pipeline-tm
 
       - name: Install router
         run: |
