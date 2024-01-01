@@ -68,7 +68,7 @@ func init() {
 	}
 	minioCfg := initMinio()
 
-	saasMode := true
+	saasMode := false
 	saasModeOn, has := os.LookupEnv("TOAE_SAAS_MODE")
 	if !has {
 		log.Warn().Msg("TOAE_SAAS_MODE defaults to: off")
