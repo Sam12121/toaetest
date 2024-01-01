@@ -55,7 +55,7 @@ RUN tar -xzf /usr/local/yara.tar.gz -C /usr/local/ \
     && chmod +x /entrypoint.sh
     # && sed -i 's/auto-update: true/auto-update: false/g' /usr/local/bin/grype.yaml
 
-RUN export GRYPE_DB_UPDATE_URL=https://threat-intel.toae.io/vulnerability-db/listing.json && grype db update
+RUN export GRYPE_DB_UPDATE_URL=https://threat-intel.deepfence.io/vulnerability-db/listing.json && grype db update
 
 COPY --from=builder-yara /go/bin/asynq /usr/local/bin/asynq
 

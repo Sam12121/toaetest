@@ -271,7 +271,7 @@ const Integrations = () => {
         </Breadcrumb>
       </div>
       <div className="m-4 gap-y-6 flex flex-col">
-        <ThreatRx />
+        <TOAERx />
         {IntegrationsData.map((integration, index) => {
           return (
             <section key={integration.name} className="flex flex-col">
@@ -419,14 +419,14 @@ const AIIntegrations = () => {
   );
 };
 
-const ThreatRx = () => {
+const TOAERx = () => {
   return (
     <section className="flex flex-col">
       <h2 className="flex items-center gap-2 text-h5 animate-text-gradient text-transparent bg-gradient-to-r from-pink-400 via-orange-400 to-fuchsia-300 bg-clip-text">
         <div className="h-4 w-4 dark:text-orange-400">
           <SparkleLineIcon />
         </div>
-        ThreatRx
+        TOAE Intel
         <Tooltip placement="right" content="Remediations powered by Generative AI">
           <div className="h-4 w-4 text-text-text-and-icon">
             <InfoStandardIcon />
