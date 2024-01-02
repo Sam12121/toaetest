@@ -1,7 +1,7 @@
 import { useSuspenseQuery } from '@suspensive/react-query';
 import { truncate } from 'lodash-es';
 import { Suspense } from 'react';
-import { colors, preset } from 'tailwind-preset';
+import { preset } from 'tailwind-preset';
 import { Card, CircleSpinner } from 'ui-components';
 
 import { ErrorStandardLineIcon } from '@/components/icons/common/ErrorStandardLine';
@@ -9,10 +9,9 @@ import { ContainerIcon } from '@/components/icons/container';
 import { HostIcon } from '@/components/icons/host';
 import { ImageIcon } from '@/components/icons/image';
 import { ReactECharts, ReactEChartsProps } from '@/components/ReactEcharts';
-import { getSeverityColorMap } from '@/constants/charts';
+import { SEVERITY_COLORS } from '@/constants/charts';
 import { CardHeader } from '@/features/secrets/components/landing/CardHeader';
 import { queries } from '@/queries';
-import { Mode, useTheme } from '@/theme/ThemeContext';
 
 export interface TopNSecretChartData {
   name: string;
@@ -23,7 +22,7 @@ export interface TopNSecretChartData {
   unknown: number;
 }
 
-function getChartOptions({ data, theme }: { data: TopNSecretChartData[]; theme: Mode }) {
+function getChartOptions({ data }: { data: TopNSecretChartData[] }) {
   return {
     backgroundColor: 'transparent',
     title: {
@@ -69,7 +68,7 @@ function getChartOptions({ data, theme }: { data: TopNSecretChartData[]; theme: 
       confine: true,
       borderWidth: 0,
       borderRadius: 5,
-      backgroundColor: preset.theme.extend.colors.bg.page,
+      backgroundColor: '#000',
       textStyle: {
         color: preset.theme.extend.colors.text['input-value'],
         fontSize: '13px',
@@ -89,12 +88,12 @@ function getChartOptions({ data, theme }: { data: TopNSecretChartData[]; theme: 
       type: 'value',
       splitLine: {
         lineStyle: {
-          color: colors[theme].chart.splitLine,
+          color: preset.theme.extend.colors['df-gray'][900],
         },
       },
       axisLabel: {
         fontWeight: 600,
-        color: colors[theme].chart.axisLabel,
+        color: preset.theme.extend.colors['df-gray']['600'],
       },
     },
     yAxis: {
@@ -117,35 +116,35 @@ function getChartOptions({ data, theme }: { data: TopNSecretChartData[]; theme: 
       {
         type: 'bar',
         stack: 'total',
-        color: getSeverityColorMap(theme)['critical'],
+        color: SEVERITY_COLORS['critical'],
         cursor: 'default',
         barMaxWidth: 20,
       },
       {
         type: 'bar',
         stack: 'total',
-        color: getSeverityColorMap(theme)['high'],
+        color: SEVERITY_COLORS['high'],
         cursor: 'default',
         barMaxWidth: 20,
       },
       {
         type: 'bar',
         stack: 'total',
-        color: getSeverityColorMap(theme)['medium'],
+        color: SEVERITY_COLORS['medium'],
         cursor: 'default',
         barMaxWidth: 20,
       },
       {
         type: 'bar',
         stack: 'total',
-        color: getSeverityColorMap(theme)['low'],
+        color: SEVERITY_COLORS['low'],
         cursor: 'default',
         barMaxWidth: 20,
       },
       {
         type: 'bar',
         stack: 'total',
-        color: getSeverityColorMap(theme)['unknown'],
+        color: SEVERITY_COLORS['unknown'],
         cursor: 'default',
         barMaxWidth: 20,
       },
@@ -195,8 +194,7 @@ const TopNCardContent = ({ type }: { type: 'host' | 'container' | 'image' }) => 
   const { data } = useSuspenseQuery({
     ...queries.secret.top5SecretAssets({ nodeType: type }),
   });
-  const { mode } = useTheme();
-  const chartOptions = getChartOptions({ data: data, theme: mode });
+  const chartOptions = getChartOptions({ data: data });
 
   return (
     <div className="pb-3 pt-5 px-5 h-[300px] flex items-center justify-center">

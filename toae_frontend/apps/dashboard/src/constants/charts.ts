@@ -1,17 +1,15 @@
-import { colors, preset } from 'tailwind-preset';
+import { preset } from 'tailwind-preset';
 
-import { Mode } from '@/theme/ThemeContext';
-import { PostureSeverityType } from '@/types/common';
+import { PostureSeverityType, VulnerabilitySeverityType } from '@/types/common';
 
-export const getSeverityColorMap = (theme: Mode) => {
-  const color = colors[theme];
-  return {
-    critical: color.chart.critical,
-    high: color.chart.high,
-    medium: color.chart.medium,
-    low: color.chart.low,
-    unknown: color.chart.unknown,
-  };
+export const SEVERITY_COLORS: {
+  [x in VulnerabilitySeverityType]: string;
+} = {
+  critical: preset.theme.extend.colors.status.error,
+  high: preset.theme.extend.colors.chart.orange,
+  medium: preset.theme.extend.colors.status.warning,
+  low: preset.theme.extend.colors.chart.yellow1,
+  unknown: preset.theme.extend.colors['df-gray'][600],
 };
 
 export function getColorForCVSSScore(score: number | undefined): string {
@@ -23,27 +21,23 @@ export function getColorForCVSSScore(score: number | undefined): string {
   return preset.theme.extend.colors['df-gray'][600];
 }
 
-export const getPostureColor = (theme: Mode) => {
-  const color = colors[theme];
-  return {
-    alarm: color.status.error,
-    info: color.status.info,
-    ok: color.status.success,
-    skip: color.chart.unknown,
+export const POSTURE_STATUS_COLORS: {
+  [x in PostureSeverityType]: string;
+} = {
+  alarm: preset.theme.extend.colors.status.error,
+  info: preset.theme.extend.colors.status.info,
+  ok: preset.theme.extend.colors.status.success,
+  skip: preset.theme.extend.colors['df-gray'][600],
 
-    pass: color.status.success,
-    warn: color.status.warning,
-    note: color.chart.unknown,
-    delete: color.status.error,
-  };
+  pass: preset.theme.extend.colors.status.success,
+  warn: preset.theme.extend.colors.status.warning,
+  note: preset.theme.extend.colors['df-gray'][600],
+  delete: preset.theme.extend.colors.chart.red,
 };
 
-export function getColorForCompliancePercent(
-  theme: Mode,
-  percent: number | undefined | null,
-): string {
+export function getColorForCompliancePercent(percent: number | undefined | null): string {
   if (percent === undefined || percent === null) {
-    return colors[theme].chart.unknown;
+    return preset.theme.extend.colors['df-gray'][600];
   }
   if (percent >= 80 && percent <= 100) {
     return preset.theme.extend.colors.status.success;
@@ -52,5 +46,5 @@ export function getColorForCompliancePercent(
   } else if (percent < 30) {
     return preset.theme.extend.colors.status.error;
   }
-  return colors[theme].chart.unknown;
+  return preset.theme.extend.colors['df-gray'][600];
 }

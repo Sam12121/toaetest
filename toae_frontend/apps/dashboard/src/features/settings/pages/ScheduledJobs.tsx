@@ -135,7 +135,7 @@ const DeleteConfirmationModal = ({
       onOpenChange={() => setShowDialog(false)}
       title={
         !fetcher.data?.success ? (
-          <div className="flex gap-3 items-center text-status-error">
+          <div className="flex gap-3 items-center dark:text-status-error">
             <span className="h-6 w-6 shrink-0">
               <ErrorStandardLineIcon />
             </span>
@@ -176,7 +176,7 @@ const DeleteConfirmationModal = ({
           <br />
           <span>Are you sure you want to delete?</span>
           {fetcher.data?.message && (
-            <p className="text-p7 text-status-error">{fetcher.data?.message}</p>
+            <p className="text-p7 dark:text-status-error">{fetcher.data?.message}</p>
           )}
           <div className="flex items-center justify-right gap-4"></div>
         </div>
@@ -222,7 +222,9 @@ const ActionDropdown = ({
                 }
               }}
             >
-              <span className="text-status-error hover:text-[#C45268]">Delete</span>
+              <span className="dark:text-status-error dark:hover:text-[#C45268]">
+                Delete
+              </span>
             </DropdownItem>
           ) : null}
         </>
@@ -241,12 +243,23 @@ const getFormattedNodeType = (column: PostgresqlDbScheduler) => {
     node_type: string;
   }[] = column.payload?.node_ids ?? [];
 
-  const nodes = nodeIds
-    .map((node) => {
-      return upperFirst(node.node_type);
+  if (nodeIds.length === 1) {
+    return upperFirst(nodeIds[0].node_type);
+  }
+  const nodeTypeMap: Record<string, number> = {};
+  nodeIds.forEach((node) => {
+    if (nodeTypeMap[node.node_type] !== undefined) {
+      nodeTypeMap[node.node_type] = nodeTypeMap[node.node_type] + 1;
+    } else {
+      nodeTypeMap[node.node_type] = 1;
+    }
+  });
+  const nodes = Object.keys(nodeTypeMap)
+    .map((key) => {
+      const value = nodeTypeMap[key];
+      return `${value} ${upperFirst(key)}`;
     })
     .join(', ');
-
   return nodes;
 };
 
@@ -350,7 +363,7 @@ const ScheduledJobsTable = ({
   return (
     <div className="mt-2">
       {data.message ? (
-        <p className="text-status-error text-p7">{data.message}</p>
+        <p className="dark:text-status-error text-p7">{data.message}</p>
       ) : (
         <Table
           size="default"

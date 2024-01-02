@@ -14,7 +14,7 @@ export const RemediationPre = ({ children }: { children?: ReactNode }) => {
         className={cn(
           'absolute flex gap-4 items-center dark:text-bg-hover-1 right-2 top-2 h-8 w-8 p-2 dark:bg-slate-800 rounded-md',
           {
-            'text-status-success': isCopied,
+            'dark:text-status-success': isCopied,
           },
         )}
         onClick={(e) => {

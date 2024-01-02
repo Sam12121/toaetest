@@ -8,10 +8,9 @@ import { SeverityLegend } from '@/components/SeverityBadge';
 import { MalwareIcon } from '@/components/sideNavigation/icons/Malware';
 import { SecretsIcon } from '@/components/sideNavigation/icons/Secrets';
 import { VulnerabilityIcon } from '@/components/sideNavigation/icons/Vulnerability';
-import { getSeverityColorMap } from '@/constants/charts';
+import { SEVERITY_COLORS } from '@/constants/charts';
 import { CardHeader } from '@/features/dashboard/components/CardHeader';
 import { queries } from '@/queries';
-import { Mode, useTheme } from '@/theme/ThemeContext';
 import { VulnerabilitySeverityType } from '@/types/common';
 import { abbreviateNumber } from '@/utils/number';
 import { usePageNavigation } from '@/utils/usePageNavigation';
@@ -86,13 +85,11 @@ const TopRisksContent = ({
   type: 'vulnerability' | 'secret' | 'malware';
   to: string;
 }) => {
-  const { mode } = useTheme();
   const { data } = useSummary(type);
   if (!data) throw new Error('data is empty');
   const chartOptions = getChartOptions({
     data: data.severityBreakdown,
     total: data.total,
-    theme: mode,
   });
 
   const { navigate } = usePageNavigation();
@@ -135,11 +132,9 @@ const TopRisksContent = ({
 function getChartOptions({
   data,
   total,
-  theme,
 }: {
   data: { [key: string]: number };
   total: number;
-  theme: Mode;
 }) {
   const option: ECOption = {
     backgroundColor: 'transparent',
@@ -179,8 +174,8 @@ function getChartOptions({
               name: key,
               itemStyle: {
                 color:
-                  getSeverityColorMap(theme)[key as VulnerabilitySeverityType] ??
-                  getSeverityColorMap(theme)['unknown'],
+                  SEVERITY_COLORS[key as VulnerabilitySeverityType] ??
+                  SEVERITY_COLORS['unknown'],
               },
             };
           }),

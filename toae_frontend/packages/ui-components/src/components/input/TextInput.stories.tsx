@@ -25,21 +25,21 @@ export const Default: StoryObj<typeof TextInput> = {
 
 export const WithPlaceholder: StoryObj<typeof TextInput> = {
   args: {
-    placeholder: 'test@toae.io',
+    placeholder: 'test@toaesecurity.com',
     color: 'error',
   },
 };
 
 export const Disabled: StoryObj<typeof TextInput> = {
   args: {
-    placeholder: 'test@toae.io',
+    placeholder: 'test@toaesecurity.com',
     disabled: true,
   },
 };
 
 export const WithStartIcon: StoryObj<typeof TextInput> = {
   args: {
-    placeholder: 'test@toae.io',
+    placeholder: 'test@toaesecurity.com',
     startIcon: <Plus />,
     disabled: false,
     color: 'error',
@@ -48,7 +48,7 @@ export const WithStartIcon: StoryObj<typeof TextInput> = {
 
 export const WithLabel: StoryObj<typeof TextInput> = {
   args: {
-    placeholder: 'test@toae.io',
+    placeholder: 'test@toaesecurity.com',
     startIcon: <Plus />,
     label: 'Username',
   },
@@ -56,7 +56,7 @@ export const WithLabel: StoryObj<typeof TextInput> = {
 
 export const ErrorWithCaption: StoryObj<typeof TextInput> = {
   args: {
-    placeholder: 'test@toae.io',
+    placeholder: 'test@toaesecurity.com',
     label: 'Username',
     required: true,
     info: 'Some info text',

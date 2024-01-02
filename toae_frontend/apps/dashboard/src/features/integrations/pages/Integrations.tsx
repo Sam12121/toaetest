@@ -213,22 +213,16 @@ const IntegrationTypes = ({ integration }: { integration: IIntegrationType }) =>
   const { data: list } = useListIntegrations();
   const { message, data } = list ?? {};
   if (message && message.length) {
-    return <p className="text-p7 text-status-error">{message}</p>;
+    return <p className="text-p7 dark:text-status-error">{message}</p>;
   }
   return (
     <div className="mt-2 flex flex-wrap gap-4">
       {integration?.types?.map((type) => {
         return (
           <DFLink to={type.path} unstyled key={type.name}>
-            <Card
-              className={cn(
-                'p-3 flex flex-col shrink-0 min-w-[208px] ring-inset',
-                'hover:ring-bg-hover-3 hover:ring-1 hover:shadow-[0px_0px_6px_1px_#044AFF]',
-                'focus:ring-bg-hover-3 focus:shadow-[0px_0px_6px_1px_#044AFF] focus:ring-1 cursor-pointer',
-              )}
-            >
+            <Card className="p-3 flex flex-col shrink-0 min-w-[208px] ring-inset dark:hover:ring-bg-hover-3 dark:hover:ring-1 dark:focus:ring-bg-hover-3 dark:hover:shadow-[0px_0px_6px_1px_#044AFF] dark:focus:shadow-[0px_0px_6px_1px_#044AFF] dark:focus:ring-1 cursor-pointer">
               <div className="flex items-center gap-x-4">
-                <div className="dark:bg-bg-grid-default bg-bg-hover-2 rounded-full p-3 flex justify-center items-center">
+                <div className="dark:bg-bg-grid-default rounded-full p-3 flex justify-center items-center">
                   <span className="h-9 w-9">{type.icon}</span>
                 </div>
                 <CardContent type={type} data={data} />
@@ -266,7 +260,7 @@ const Skeleton = ({ count }: { count: number }) => {
 const Integrations = () => {
   return (
     <>
-      <div className="bg-bg-breadcrumb-bar dark:border-none border-b border-bg-grid-border py-2 px-4">
+      <div className="dark:bg-bg-breadcrumb-bar py-2 px-4">
         <Breadcrumb>
           <BreadcrumbLink
             icon={<IntegrationsIcon />}
@@ -277,7 +271,7 @@ const Integrations = () => {
         </Breadcrumb>
       </div>
       <div className="m-4 gap-y-6 flex flex-col">
-        <ThreatRx />
+        <TOAERx />
         {IntegrationsData.map((integration, index) => {
           return (
             <section key={integration.name} className="flex flex-col">
@@ -322,13 +316,13 @@ const DownloadReport = () => {
             <Card
               className={cn(
                 'p-3 flex shrink-0 items-center h-full gap-x-4',
-                'text-text-text-and-icon',
-                'hover:ring hover:ring-bg-hover-3 hover:ring-1',
-                'focus:ring-bg-hover-3 focus:ring-1 cursor-pointer',
-                'hover:shadow-[0px_0px_6px_1px_#044AFF] focus:shadow-[0px_0px_6px_1px_#044AFF]',
+                'dark:text-text-text-and-icon',
+                'hover:ring dark:hover:ring-bg-hover-3 dark:hover:ring-1',
+                'dark:focus:ring-bg-hover-3 dark:focus:ring-1 cursor-pointer',
+                'dark:hover:shadow-[0px_0px_6px_1px_#044AFF] dark:focus:shadow-[0px_0px_6px_1px_#044AFF]',
               )}
             >
-              <div className="dark:bg-bg-grid-default bg-bg-hover-2 rounded-full p-3 flex justify-center items-center">
+              <div className="dark:bg-bg-grid-default rounded-full p-3 flex justify-center items-center">
                 <span className="h-9 w-9">
                   <DownloadReportIcon />
                 </span>
@@ -383,7 +377,7 @@ const AIIntegrations = () => {
   } = useListAIIntegrations();
 
   if (message && message.length) {
-    return <p className="text-p7 text-status-error">{message}</p>;
+    return <p className="text-p7 dark:text-status-error">{message}</p>;
   }
 
   const groupedData = data.reduce<Record<string, number>>((prev, current) => {
@@ -401,15 +395,9 @@ const AIIntegrations = () => {
         const count = groupedData[type.type] ?? 0;
         return (
           <DFLink to="/integrations/gen-ai" unstyled key={type.type}>
-            <Card
-              className={cn(
-                'p-3 flex flex-col shrink-0 min-w-[208px] ring-inset',
-                'hover:ring-bg-hover-3 hover:ring-1 hover:shadow-[0px_0px_6px_1px_#044AFF]',
-                'focus:ring-bg-hover-3 focus:shadow-[0px_0px_6px_1px_#044AFF] focus:ring-1 cursor-pointer',
-              )}
-            >
+            <Card className="p-3 flex flex-col shrink-0 min-w-[208px] ring-inset dark:hover:ring-bg-hover-3 dark:hover:ring-1 dark:focus:ring-bg-hover-3 dark:hover:shadow-[0px_0px_6px_1px_#044AFF] dark:focus:shadow-[0px_0px_6px_1px_#044AFF] dark:focus:ring-1 cursor-pointer">
               <div className="flex items-center gap-x-6">
-                <div className="dark:bg-bg-grid-default bg-bg-hover-2 rounded-full p-3 flex justify-center items-center">
+                <div className="dark:bg-bg-grid-default rounded-full p-3 flex justify-center items-center">
                   <span className="h-9 w-9">{type.icon}</span>
                 </div>
                 <div className="flex flex-col">
@@ -431,14 +419,14 @@ const AIIntegrations = () => {
   );
 };
 
-const ThreatRx = () => {
+const TOAERx = () => {
   return (
     <section className="flex flex-col">
       <h2 className="flex items-center gap-2 text-h5 animate-text-gradient text-transparent bg-gradient-to-r from-pink-400 via-orange-400 to-fuchsia-300 bg-clip-text">
         <div className="h-4 w-4 dark:text-orange-400">
           <SparkleLineIcon />
         </div>
-        ThreatRx
+        TOAE Intel
         <Tooltip placement="right" content="Remediations powered by Generative AI">
           <div className="h-4 w-4 text-text-text-and-icon">
             <InfoStandardIcon />

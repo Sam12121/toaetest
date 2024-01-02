@@ -41,14 +41,14 @@ export const ConnectorHeader = ({
             <span
               className={cn(
                 'w-6 h-6 rounded-full dark:bg-df-gray-200 text-p7 flex items-center justify-center',
-                'dark:bg-gray-700 dark:text-df-gray-100 bg-gray-200 text-text-input-value cursor-default',
+                'dark:bg-gray-700 dark:text-df-gray-100 cursor-default',
               )}
             >
               1
             </span>
             <span
               className={cn('flex items-center ml-2 cursor-default', {
-                ['text-text-text-and-icon']: !isAddConnectorRoutePath(),
+                ['dark:text-text-text-and-icon']: !isAddConnectorRoutePath(),
               })}
             >
               Add a connector
@@ -58,7 +58,7 @@ export const ConnectorHeader = ({
             <span
               className={cn(
                 'w-6 h-6 rounded-full dark:bg-df-gray-200 text-p7 flex items-center justify-center',
-                'dark:bg-gray-700 dark:text-df-gray-100 bg-gray-200 text-text-input-value cursor-default',
+                'dark:bg-gray-700 dark:text-df-gray-100 cursor-default',
               )}
             >
               2
@@ -66,7 +66,7 @@ export const ConnectorHeader = ({
 
             <span
               className={cn('cursor-auto ml-2', {
-                ['text-text-link']: isScanRoutePath(),
+                ['dark:text-text-link']: isScanRoutePath(),
               })}
             >
               Scan infrastructure
@@ -76,14 +76,14 @@ export const ConnectorHeader = ({
             <span
               className={cn(
                 'w-6 h-6 rounded-full dark:bg-df-gray-200 text-p7 flex items-center justify-center',
-                'dark:bg-gray-700 dark:text-df-gray-100 bg-gray-200 text-text-input-value cursor-default',
+                'dark:bg-gray-700 dark:text-df-gray-100 cursor-default',
               )}
             >
               3
             </span>
             <span
               className={cn('cursor-auto ml-2', {
-                ['text-text-link']: isViewScanSummaryRoutePath(),
+                ['dark:text-text-link']: isViewScanSummaryRoutePath(),
               })}
             >
               View scan results
@@ -93,9 +93,13 @@ export const ConnectorHeader = ({
       </div>
       <div className="flex items-center">
         <div>
-          <h1 className={`text-h2 text-text-input-value`}>{title}</h1>
+          <h1 className={`text-h2 dark:text-text-input-value`}>{title}</h1>
           {description && (
-            <p className={`text-p4 mt-1.5 mb-4  text-gray-900`}>{description}</p>
+            <p
+              className={`text-p4 mt-1.5 mb-4 dark:text-text-text-and-icon text-gray-900`}
+            >
+              {description}
+            </p>
           )}
         </div>
         {endComponent ? <div className="ml-auto">{endComponent}</div> : null}

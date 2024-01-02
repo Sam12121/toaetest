@@ -17,7 +17,6 @@ import { VulnerabilityIcon } from '@/components/sideNavigation/icons/Vulnerabili
 import { TruncatedText } from '@/components/TruncatedText';
 import { getNodeImage } from '@/features/topology/utils/graph-styles';
 import { queries } from '@/queries';
-import { useTheme } from '@/theme/ThemeContext';
 import { ScanTypeEnum } from '@/types/common';
 import { abbreviateNumber } from '@/utils/number';
 import { getScanLink } from '@/utils/scan';
@@ -57,19 +56,13 @@ export const DetailsModal = ({
   nodeType,
   cloudId,
 }: DetailsModalProps) => {
-  const { mode } = useTheme();
   return (
     <SlidingModal open={open} onOpenChange={onOpenChange} size="m">
       <SlidingModalCloseButton />
       <SlidingModalHeader>
-        <div className="flex gap-2 items-center text-text-text-and-icon px-5 py-[22px] dark:bg-bg-breadcrumb-bar bg-[#f6f7f9]">
+        <div className="flex gap-2 items-center dark:text-text-text-and-icon px-5 py-[22px] dark:bg-bg-breadcrumb-bar">
           <div className="w-5 h-5 shrink-0">
-            <img
-              src={getNodeImage(mode, nodeType)}
-              alt={nodeType}
-              width="100%"
-              height="100%"
-            />
+            <img src={getNodeImage(nodeType)} alt={nodeType} width="100%" height="100%" />
           </div>
           <div className="text-h3 capitalize">
             <TruncatedText text={label} />
@@ -123,7 +116,6 @@ const ModalContent = ({
   nodeType: string;
   cloudId: string;
 }) => {
-  const { mode } = useTheme();
   const data = useLookupResources(nodeType, Object.keys(nodes ?? {}));
   const nodesData = useMemo(() => {
     if (!data) return null;
@@ -143,7 +135,7 @@ const ModalContent = ({
             latest_secret_scan_id: (nodeData as ModelHost)?.secret_latest_scan_id,
             secrets_count: (nodeData as ModelHost)?.secrets_count,
             latest_compliance_scan_id: (nodeData as ModelHost)?.compliance_latest_scan_id,
-            compliance_count: (nodeData as ModelHost)?.compliances_count,
+            compliance_count: (nodeData as ModelHost)?.warn_alarm_count,
             latest_cloud_compliance_scan_id: undefined,
           };
         }
@@ -152,8 +144,7 @@ const ModalContent = ({
           ...node,
           latest_cloud_compliance_scan_id: (nodeData as ModelCloudResource)
             ?.cloud_compliance_latest_scan_id,
-          cloud_compliance_count: (nodeData as ModelCloudResource)
-            ?.cloud_compliances_count,
+          cloud_compliance_count: (nodeData as ModelHost)?.cloud_warn_alarm_count,
           latest_vulnerability_scan_id: undefined,
           latest_secret_scan_id: undefined,
           latest_compliance_scan_id: undefined,
@@ -168,13 +159,13 @@ const ModalContent = ({
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 shrink-0">
               <img
-                src={getNodeImage(mode, nodeType)}
+                src={getNodeImage(nodeType)}
                 alt={nodeType}
                 width="100%"
                 height="100%"
               />
             </div>
-            <div className="text-h5 text-text-text-and-icon">{item?.node_id}</div>
+            <div className="text-h5 dark:text-text-text-and-icon">{item?.node_id}</div>
           </div>
           <div className="flex items-center justify-start gap-4 py-3">
             {item?.vulnerability_count ? (
@@ -264,14 +255,14 @@ const CountCard = ({
     return <div className={className}>{children}</div>;
   };
   return (
-    <Wrapper className="w-full h-full flex-1 max-w-[112px] flex flex-col gap-1.5 dark:bg-bg-card bg-df-gray-100  rounded-[5px] p-1.5">
-      <div className="flex gap-1.5 items-center text-status-error">
+    <Wrapper className="w-full h-full flex-1 max-w-[112px] flex flex-col gap-1.5 dark:bg-bg-card rounded-[5px] p-1.5">
+      <div className="flex gap-1.5 items-center dark:text-status-error">
         <div className="w-[30px] h-[30px] shrink-0">
           <Logo />
         </div>
         <div className="text-h1">{abbreviateNumber(count)}</div>
       </div>
-      <div className="text-p1 text-text-text-and-icon">{label}</div>
+      <div className="text-p1 dark:text-text-text-and-icon">{label}</div>
     </Wrapper>
   );
 };

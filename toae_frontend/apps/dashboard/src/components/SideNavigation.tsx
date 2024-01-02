@@ -4,8 +4,6 @@ import { cn } from 'tailwind-preset';
 import { Tooltip } from 'ui-components';
 
 import { CaretDown } from '@/components/icons/common/CaretDown';
-import { ThemeDarkIcon } from '@/components/icons/common/ThemeDarkIcon';
-import { ThemeLightIcon } from '@/components/icons/common/ThemeLightIcon';
 import { DashboardIcon } from '@/components/sideNavigation/icons/Dashboard';
 import { IntegrationsIcon } from '@/components/sideNavigation/icons/Integrations';
 import { MalwareIcon } from '@/components/sideNavigation/icons/Malware';
@@ -16,7 +14,6 @@ import { SettingsIcon } from '@/components/sideNavigation/icons/Settings';
 import { ThreatGraphIcon } from '@/components/sideNavigation/icons/ThreatGraph';
 import { TopologyIcon } from '@/components/sideNavigation/icons/Topology';
 import { VulnerabilityIcon } from '@/components/sideNavigation/icons/Vulnerability';
-import { useTheme } from '@/theme/ThemeContext';
 
 export interface SideNavigationRootProps {
   expanded: boolean;
@@ -111,7 +108,6 @@ const ItemWrapper = ({
 };
 
 export function SideNavigation({ expanded, onExpandedChange }: SideNavigationRootProps) {
-  const { mode: theme, setMode } = useTheme();
   useEffect(() => {
     setSideNavigationState(expanded ? 'open' : 'closed');
   }, [expanded]);
@@ -119,11 +115,10 @@ export function SideNavigation({ expanded, onExpandedChange }: SideNavigationRoo
     <nav
       className={cn(
         'overflow-y-auto overflow-x-hidden',
-        'bg-bg-left-nav',
+        'bg-white dark:bg-bg-left-nav',
         'transition-[width]',
         'fixed left-0 z-10 scrolling-touch',
-        'border-r border-bg-top-header',
-        'dark:shadow-none shadow-md',
+        'border-r dark:border-bg-top-header',
       )}
       style={{
         top: '56px',
@@ -131,16 +126,16 @@ export function SideNavigation({ expanded, onExpandedChange }: SideNavigationRoo
         height: 'calc(100vh - 56px)',
       }}
     >
-      <ul className={cn('flex flex-col h-full')}>
+      <ul className={cn('flex flex-col')}>
         <li>
           <button
-            className="h-12 w-full mb-2 flex pl-5 items-center border border-bg-top-header"
+            className="h-12 w-full mb-2 flex pl-5 items-center border dark:border-bg-top-header"
             onClick={(e) => {
               e.preventDefault();
               onExpandedChange(!expanded);
             }}
           >
-            <div className="h-5 w-5 text-text-text-and-icon">
+            <div className="h-5 w-5 dark:text-text-text-and-icon">
               <HamburgerIcon />
             </div>
           </button>
@@ -168,36 +163,6 @@ export function SideNavigation({ expanded, onExpandedChange }: SideNavigationRoo
             );
           }
         })}
-        <li className="mt-auto px-5 min-h-[48px] flex flex-col items-center">
-          <button
-            className={cn(
-              'w-full h-full',
-              'text-text-text-and-icon hover:text-text-input-value text-h4',
-              'flex items-center gap-x-5',
-              'border-t dark:border-bg-breadcrumb-bar',
-            )}
-            onClick={(e) => {
-              e.preventDefault();
-              setMode(theme === 'light' ? 'dark' : 'light');
-            }}
-          >
-            {theme === 'dark' ? (
-              <>
-                <span className="h-5 w-5 block">
-                  <ThemeLightIcon />
-                </span>
-                Light
-              </>
-            ) : (
-              <>
-                <span className="h-5 w-5 block">
-                  <ThemeDarkIcon />
-                </span>
-                Dark
-              </>
-            )}
-          </button>
-        </li>
       </ul>
     </nav>
   );
@@ -230,12 +195,12 @@ const MenuItemButton = ({
   }, [location]);
 
   const btnClass = cn(
-    'text-h4 text-text-text-and-icon py-3 pl-5 pr-3',
-    'hover:bg-bg-breadcrumb-bar',
+    'text-h4 dark:text-text-text-and-icon py-3 pl-5 pr-3',
+    'dark:hover:bg-bg-breadcrumb-bar',
     'flex items-center whitespace-nowrap',
     'h-12 w-full text-left relative',
     {
-      'bg-bg-breadcrumb-bar': hasActiveChildren,
+      'dark:bg-bg-breadcrumb-bar': hasActiveChildren,
     },
   );
 
@@ -261,16 +226,16 @@ const MenuItemButton = ({
           }}
         >
           {hasActiveChildren && !expanded && (
-            <div className="absolute w-1 left-0 top-0 bottom-0 bg-brand-dark-blue" />
+            <div className="absolute w-1 left-0 top-0 bottom-0 dark:bg-brand-dark-blue" />
           )}
-          <div className={cn('w-5 h-5 text-text-text-and-icon shrink-0')}>
+          <div className={cn('w-5 h-5 dark:text-text-text-and-icon shrink-0')}>
             {Icon ? <Icon /> : null}
           </div>
           {expanded && <div className="overflow-hidden flex-1 ml-5">{title}</div>}
           {expanded && (
             <div
               className={cn(
-                'h-4 w-4 text-text-text-and-icon shrink-0 transition-all transform -rotate-90 ml-auto',
+                'h-4 w-4 dark:text-text-text-and-icon shrink-0 transition-all transform -rotate-90 ml-auto',
                 {
                   'rotate-0': showSubMenu,
                 },
@@ -289,12 +254,12 @@ const MenuItemButton = ({
             }}
           >
             <ul
-              className="min-w-[200px] bg-bg-card border-y border-r border-bg-left-nav rounded-[5px] py-2 ml-1"
+              className="min-w-[200px] dark:bg-bg-card border-y border-r dark:border-bg-left-nav rounded-[5px] py-2 ml-1"
               style={{
                 boxShadow: '0px 1px 3px 0px rgba(0, 0, 0, 0.25)',
               }}
             >
-              <li className="px-4 py-1.5 text-h4 text-df-gray-500">{title}</li>
+              <li className="px-4 py-1.5 text-h4 dark:text-df-gray-500">{title}</li>
               {subItems.map((subItem) => {
                 return (
                   <MenuSubItemLink
@@ -337,8 +302,8 @@ const MenuItemLink = ({
   Icon?: () => JSX.Element;
 }) => {
   const linkClass = cn(
-    'text-h4 text-text-text-and-icon py-3 px-5',
-    'dark:hover:bg-bg-breadcrumb-bar hover:bg-bg-hover-2',
+    'text-h4 dark:text-text-text-and-icon py-3 px-5',
+    'dark:hover:bg-bg-breadcrumb-bar',
     'flex items-center gap-5 whitespace-nowrap relative',
     'h-12 w-full',
   );
@@ -350,7 +315,7 @@ const MenuItemLink = ({
           to={link}
           className={({ isActive }) =>
             isActive
-              ? cn(linkClass, 'bg-bg-active-selection text-text-input-value')
+              ? cn(linkClass, 'dark:bg-bg-active-selection dark:text-text-input-value')
               : linkClass
           }
         >
@@ -358,11 +323,11 @@ const MenuItemLink = ({
             return (
               <>
                 {isActive && (
-                  <div className="absolute w-1 left-0 top-0 bottom-0 bg-brand-dark-blue" />
+                  <div className="absolute w-1 left-0 top-0 bottom-0 dark:bg-brand-dark-blue" />
                 )}
                 <div
-                  className={cn('w-5 h-5 text-text-text-and-icon shrink-0', {
-                    'text-text-input-value': isActive,
+                  className={cn('w-5 h-5 dark:text-text-text-and-icon shrink-0', {
+                    'dark:text-text-input-value': isActive,
                   })}
                 >
                   {Icon ? <Icon /> : null}
@@ -389,8 +354,8 @@ const MenuSubItemLink = ({
   flyout?: boolean;
 }) => {
   const linkClass = cn(
-    'text-h4 text-text-text-and-icon py-3 px-5',
-    'hover:bg-bg-breadcrumb-bar',
+    'text-h4 dark:text-text-text-and-icon py-3 px-5',
+    'dark:hover:bg-bg-breadcrumb-bar',
     'flex items-center gap-5 whitespace-nowrap relative',
     'h-12 w-full',
   );
@@ -401,7 +366,7 @@ const MenuSubItemLink = ({
         to={link}
         className={({ isActive }) =>
           isActive
-            ? cn(linkClass, 'bg-bg-active-selection text-text-input-value')
+            ? cn(linkClass, 'dark:bg-bg-active-selection dark:text-text-input-value')
             : linkClass
         }
         onClick={onLinkClick}
@@ -410,7 +375,7 @@ const MenuSubItemLink = ({
           return (
             <>
               {isActive && (
-                <div className="absolute w-1 left-0 top-0 bottom-0 bg-brand-dark-blue" />
+                <div className="absolute w-1 left-0 top-0 bottom-0 dark:bg-brand-dark-blue" />
               )}
               <div
                 className={cn('overflow-hidden flex-1 pl-10', {

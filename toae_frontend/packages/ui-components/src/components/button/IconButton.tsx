@@ -25,33 +25,33 @@ export const iconButtonCVA = cva(
       color: {
         default: [
           // bg styles
-          'hover:bg-bg-hover-1 bg-accent-accent',
+          'bg-gray-100 dark:bg-accent-accent hover:bg-gray-200 dark:hover:bg-[#3777C2]',
           // text styles
-          'text-text-text-inverse',
+          'text-gray-700 dark:text-black',
           // focus styles
-          'focus:outline-[2px] focus:outline-offset-1 focus:outline-offset-transparent focus:outline-bg-hover-3',
+          'focus:outline-[2px] focus:outline-gray-200  dark:focus:outline-offset-1 dark:focus:outline-offset-transparent dark:focus:outline-bg-hover-3',
           // disabled styles
-          'dark:disabled:bg-df-gray-600 dark:disabled:text-df-gray-900 disabled:bg-df-gray-400 disabled:text-df-gray-600',
+          'dark:disabled:bg-df-gray-600 dark:disabled:text-df-gray-900',
         ],
         error: [
           // bg styles
-          'bg-status-error dark:hover:bg-[#C45268] hover:bg-[#9B1C1C]',
+          'bg-red-700 hover:bg-red-800 dark:bg-status-error dark:hover:bg-[#C45268]',
           // text styles
-          'text-text-text-inverse',
+          'text-white dark:text-black',
           // focus styles
-          'focus:outline-[2px] focus:outline-offset-1 focus:outline-offset-transparent dark:focus:outline-[#ffffffb3] focus:outline-[#ea2300]',
+          'focus:outline-[2px] focus:outline-red-300 dark:focus:outline-offset-1 dark:focus:outline-offset-transparent dark:focus:outline-[#ffffffb3]',
           // disabled styles
-          'dark:disabled:bg-df-gray-600 dark:disabled:text-df-gray-900 disabled:bg-df-gray-400 disabled:text-df-gray-600',
+          'dark:disabled:bg-df-gray-600 dark:disabled::text-df-gray-900',
         ],
         success: [
           // bg styles
-          'bg-status-success dark:hover:bg-[#119365] hover:bg-[#306b00]',
+          'bg-green-700 hover:bg-green-800 dark:bg-status-success dark:hover:bg-[#119365]',
           // text styles
-          'text-text-text-inverse',
+          'text-white dark:text-black',
           // focus styles
-          'focus:outline-[2px] focus:outline-offset-1 focus:outline-offset-transparent dark:focus:outline-[#ffffffb3] focus:outline-[#449800]',
+          'focus:outline-[2px] focus:outline-green-300 dark:focus:outline-offset-1 dark:focus:outline-offset-transparent dark:focus:outline-[#ffffffb3]',
           // disabled styles
-          'dark:disabled:bg-df-gray-600 dark:disabled:text-df-gray-900 disabled:bg-df-gray-400 disabled:text-df-gray-600',
+          'dark:disabled:bg-df-gray-600 dark:disabled::text-df-gray-900',
         ],
       },
       variant: {
@@ -69,17 +69,16 @@ export const iconButtonCVA = cva(
         variant: 'outline',
         className: [
           // bg styles
-          'bg-transparent dark:hover:bg-bg-hover-2 hover:bg-[#e3f5fc]',
+          'bg-transparent hover:bg-gray-100 dark:bg-transparent dark:hover:bg-[#0E1F33]',
           // text styles
-          'text-accent-accent dark:hover:text-accent-accent hover:text-[#00567a]',
+          'text-gray-900 hover:text-blue-700 dark:text-accent-accent',
           // border styles
-          'border border-accent-accent dark:hover:border-accent-accent hover:border-[#0079ad]',
+          'border border-gray-200 dark:border-accent-accent',
           // outline styles
-          'focus:outline-[2px] focus:outline-offset-1 focus:outline-offset-transparent focus:outline-bg-hover-3',
+          'focus:outline-[2px] focus:outline-gray-200 dark:focus:outline-offset-1 dark:focus:outline-offset-transparent dark:focus:outline-bg-hover-3',
           // disabled styles
-          'disabled:bg-transparent dark:disabled:border-df-gray-600',
-          'dark:disabled:text-df-gray-700 disabled:border-df-gray-400 disabled:text-df-gray-400',
-          'dark:disabled:bg-transparent',
+          'dark:disabled:bg-transparent dark:disabled:border-df-gray-600',
+          'dark:disabled:text-df-gray-700',
         ],
       },
       {
@@ -87,17 +86,16 @@ export const iconButtonCVA = cva(
         variant: 'outline',
         className: [
           // bg styles
-          'bg-transparent hover:bg-[#fff2f0] dark:hover:bg-[#33151B]',
+          'dark:bg-transparent hover:bg-red-800 dark:hover:bg-[#33151B]',
           // text styles
-          'text-status-error',
+          'text-red-700 hover:text-white dark:text-status-error',
           // border styles
-          'border border-status-error',
+          'border border-red-700 dark:border-status-error',
           // outline styles
-          'focus:outline-[2px] focus:outline-offset-1 focus:outline-offset-transparent dark:focus:outline-[#ffffffb3] focus:outline-[#f82500]',
+          'focus:outline-[2px] focus:outline-red-300 dark:focus:outline-offset-1 dark:focus:outline-offset-transparent dark:focus:outline-[#ffffffb3]',
           // disabled styles
-          'disabled:bg-transparent dark:disabled:border-df-gray-600',
-          'dark:disabled:text-df-gray-700 disabled:border-df-gray-400 disabled:text-df-gray-400',
-          'dark:disabled:bg-transparent',
+          'dark:disabled:bg-transparent dark:disabled:border-df-gray-600',
+          'dark:disabled:text-df-gray-700',
         ],
       },
       {
@@ -105,17 +103,16 @@ export const iconButtonCVA = cva(
         variant: 'outline',
         className: [
           // bg styles
-          'bg-transparent hover:bg-[#eefce3] dark:hover:bg-[#052E20]',
+          'dark:bg-transparent hover:bg-green-800 dark:hover:bg-[#052E20]',
           // text styles
-          'text-status-success',
+          'text-green-700 hover:text-white dark:text-status-success',
           // border styles
-          'border border-status-success dark:hover:border-status-success hover:border-[#42810e]',
+          'border border-green-700 dark:border-status-success',
           // outline styles
-          'focus:outline-[2px] focus:outline-offset-1 focus:outline-offset-transparent dark:focus:outline-[#ffffffb3] focus:outline-[#449800]',
+          'focus:outline-[2px] focus:outline-green-300 dark:focus:outline-offset-1 dark:focus:outline-offset-transparent dark:focus:outline-[#ffffffb3]',
           // disabled styles
-          'disabled:bg-transparent dark:disabled:border-df-gray-600',
-          'dark:disabled:text-df-gray-700 disabled:border-df-gray-400 disabled:text-df-gray-400',
-          'dark:disabled:bg-transparent',
+          'dark:disabled:bg-transparent dark:disabled:border-df-gray-600',
+          'dark:disabled:text-df-gray-700',
         ],
       },
       {
@@ -123,15 +120,15 @@ export const iconButtonCVA = cva(
         variant: 'flat',
         className: [
           // bg styles
-          'bg-transparent dark:hover:bg-transparent hover:bg-transparent',
+          'bg-transparent hover:bg-gray-100 dark:bg-transparent dark:hover:bg-transparent',
           // text styles
-          'text-accent-accent dark:hover:text-[#3777C2] hover:text-[#00618a]',
+          'text-gray-900 hover:text-blue-700 dark:text-accent-accent dark:hover:text-[#3777C2]',
           // border styles
-          'border-none',
+          'border border-gray-200 dark:border-none',
           // outline styles
-          'focus:outline-[2px] focus:outline-offset-1 focus:outline-offset-transparent focus:outline-bg-hover-3',
+          'focus:outline-[2px] focus:outline-gray-200 dark:focus:outline-offset-1 dark:focus:outline-offset-transparent dark:focus:outline-bg-hover-3',
           // disabled styles
-          'dark:disabled:bg-transparent disabled:bg-transparent dark:disabled:text-df-gray-600 disabled:text-df-gray-400',
+          'dark:disabled:bg-transparent dark:disabled:text-df-gray-600',
         ],
       },
       {
@@ -139,15 +136,15 @@ export const iconButtonCVA = cva(
         variant: 'flat',
         className: [
           // bg styles
-          'bg-transparent dark:hover:bg-transparent hover:bg-transparent',
+          'dark:bg-transparent hover:bg-red-800 dark:hover:bg-transparent',
           // text styles
-          'text-status-error dark:hover:text-[#C45268] hover:text-[#9B1C1C]',
+          'text-red-700 hover:text-white dark:text-status-error dark:hover:text-[#C45268]',
           // border styles
-          'border-none',
+          'border border-red-700 dark:border-none',
           // outline styles
-          'focus:outline-[2px focus:outline-offset-1 focus:outline-offset-transparent dark:focus:outline-[#ffffffb3] focus:outline-[#f82500]',
+          'focus:outline-[2px] focus:outline-red-300 dark:focus:outline-offset-1 dark:focus:outline-offset-transparent dark:focus:outline-[#ffffffb3]',
           // disabled styles
-          'dark:disabled:bg-transparent disabled:bg-transparent dark:disabled:text-df-gray-600 disabled:text-df-gray-400',
+          'dark:disabled:bg-transparent dark:disabled:text-df-gray-600',
         ],
       },
       {
@@ -155,15 +152,15 @@ export const iconButtonCVA = cva(
         variant: 'flat',
         className: [
           // bg styles
-          'bg-transparent hover:bg-transparent dark:hover:bg-transparent',
+          'dark:bg-transparent hover:bg-green-800 dark:hover:bg-transparent',
           // text styles
-          'text-status-success dark:hover:text-[#119366] hover:text-[#366a0c]',
+          'text-green-700 hover:text-white dark:text-status-success dark:hover:text-[#119366]',
           // border styles
-          'border-none',
+          'border border-green-700 dark:border-none',
           // outline styles
-          'focus:outline-[2px focus:outline-offset-1 dark:focus:outline-offset-transparent dark:focus:outline-[#ffffffb3] focus:outline-[#449800]',
+          'focus:outline-[2px] focus:outline-green-300 dark:focus:outline-offset-1 dark:focus:outline-offset-transparent dark:focus:outline-[#ffffffb3]',
           // disabled styles
-          'dark:disabled:bg-transparent disabled:bg-transparent dark:disabled:text-df-gray-600 disabled:text-df-gray-400',
+          'dark:disabled:bg-transparent dark:disabled:text-df-gray-600',
         ],
       },
     ],

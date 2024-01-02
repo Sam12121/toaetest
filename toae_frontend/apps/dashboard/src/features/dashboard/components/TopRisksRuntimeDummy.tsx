@@ -5,10 +5,9 @@ import { DFLink } from '@/components/DFLink';
 import { ArrowLine } from '@/components/icons/common/ArrowLine';
 import { ECOption, ReactECharts } from '@/components/ReactEcharts';
 import { AlertIcon } from '@/components/sideNavigation/icons/Alert';
-import { getSeverityColorMap } from '@/constants/charts';
+import { SEVERITY_COLORS } from '@/constants/charts';
 import { CardHeader } from '@/features/dashboard/components/CardHeader';
 import { RuntimeIncidentsCheckIcon } from '@/features/dashboard/components/images/RuntimeIncidentCheck';
-import { useTheme } from '@/theme/ThemeContext';
 
 export const TopRisksRuntimeDummy = () => {
   return (
@@ -23,20 +22,18 @@ export const TopRisksRuntimeDummy = () => {
             <RuntimeIncidentsCheckIcon />
           </div>
         </div>
-        <div className="text-h3 text-text-input-value">Runtime Protection</div>
-        <div className="px-6 pt-1 text-center text-p1 text-text-text-and-icon">
-          Extend ThreatMapper with runtime attack analysis, threat assessment, and
-          targeted protection for your applications. Scalable, supported, and ready for
-          action!
+        <div className="text-h3 dark:text-text-input-value">Runtime Protection</div>
+        <div className="px-6 pt-1 text-center text-p1 dark:text-text-text-and-icon">
+          
         </div>
         <DFLink
           unstyled
           className="my-2"
-          href="https://toae.io/threatstryker/"
+          href="https://toaesecurity.com/"
           target="_blank"
         >
           <Button color="success" endIcon={<ArrowLine className="rotate-90" />}>
-            Get ThreatStryker
+            Coming Soon
           </Button>
         </DFLink>
       </div>
@@ -45,7 +42,6 @@ export const TopRisksRuntimeDummy = () => {
 };
 
 const DummyDonutChart = () => {
-  const { mode } = useTheme();
   const data: { [x: string]: number } = {
     critical: 100,
     high: 50,
@@ -84,14 +80,14 @@ const DummyDonutChart = () => {
         },
         silent: true,
         color: [
-          getSeverityColorMap(mode)['critical'],
-          getSeverityColorMap(mode)['high'],
-          getSeverityColorMap(mode)['medium'],
-          getSeverityColorMap(mode)['low'],
-          getSeverityColorMap(mode)['unknown'],
+          SEVERITY_COLORS['critical'],
+          SEVERITY_COLORS['high'],
+          SEVERITY_COLORS['medium'],
+          SEVERITY_COLORS['low'],
+          SEVERITY_COLORS['unknown'],
         ],
       },
     ],
   };
-  return <ReactECharts theme={mode} option={option} />;
+  return <ReactECharts theme="dark" option={option} />;
 };

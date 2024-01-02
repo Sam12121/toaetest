@@ -110,6 +110,7 @@ const inputCva = cva(
     'focus:outline-none',
     'pl-1.5 pt-1.5 pb-[5px]',
     'border-b',
+    'dark:bg-transparent',
     'transition-[background-size] duration-[0.2s] ease-[ease]',
   ],
   {
@@ -118,20 +119,20 @@ const inputCva = cva(
         default: [
           cn(
             // border
-            'border-text-text-and-icon',
+            'dark:border-text-text-and-icon',
             // placeholder styles
-            'placeholder-df-gray-500 disabled:placeholder-df-gray-400',
+            'placeholder-df-gray-500 disabled:placeholder-df-gray-600',
             'dark:placeholder-df-gray-600 dark:disabled:placeholder-df-gray-600',
             // text styles
-            'text-text-input-value',
+            'text-gray-900 dark:text-text-input-value',
             // disabled text color
-            'disabled:text-df-gray-400 dark:disabled:text-df-gray-600',
+            'disabled:text-gray-700 dark:disabled:text-df-gray-600',
             // focus style
-            'bg-[length:0%_100%] focus:bg-[length:100%_100%]',
-            'focus:border-b-accent-accent',
+            'dark:bg-[length:0%_100%] dark:focus:bg-[length:100%_100%]',
+            'dark:focus:border-b-accent-accent',
             // dark and bg styles
-            'bg-transparent bg-no-repeat',
-            'focus:bg-no-repeat',
+            'dark:bg-no-repeat',
+            'dark:focus:bg-no-repeat',
             // 'dark:focus:bg-[linear-gradient(to_bottom,_transparent_95%,_#489CFF_95%)]',
             // 'dark:bg-[linear-gradient(to_bottom,_transparent_95%,_#489CFF_95%)]',
           ),
@@ -139,21 +140,21 @@ const inputCva = cva(
         error: [
           cn(
             // border
-            'border-chart-red df-error',
+            'dark:border-chart-red df-error',
             // placeholder styles
-            'placeholder-df-gray-500 disabled:placeholder-df-gray-400',
-            'dark:placeholder-df-gray-600 dark:disabled:placeholder-df-gray-600',
+            'placeholder-df-gray-500 disabled:placeholder-df-gray-600',
+            'dark:placeholder-df-gray-400 dark:disabled:placeholder-df-gray-500',
             // text font
             // text styles
-            'text-text-input-value',
+            'text-gray-900 dark:text-text-input-value',
             // disabled text color
-            'disabled:text-gray-400 dark:disabled:text-df-gray-600',
+            'disabled:text-gray-700 dark:disabled:text-df-gray-600',
             // focus style
-            'bg-[length:0%_100%] focus:bg-[length:100%_100%]',
-            'focus:border-b-chart-red',
+            'dark:bg-[length:0%_100%] dark:focus:bg-[length:100%_100%]',
+            'dark:focus:border-b-chart-red',
             // dark and bg styles
-            'bg-transparent bg-no-repeat',
-            'focus:bg-no-repeat',
+            'dark:bg-no-repeat',
+            'dark:focus:bg-no-repeat',
             // 'dark:focus:bg-[linear-gradient(to_bottom,_transparent_95%,_#F55B47_95%)]',
             // 'dark:bg-[linear-gradient(to_bottom,_transparent_95%,_#F55B47_95%)]',
           ),
@@ -181,14 +182,14 @@ const inputCva = cva(
 const iconContextCva = cva('', {
   variants: {
     color: {
-      default: ['text-text-input-value'],
-      error: ['text-text-input-value'],
-      success: ['text-text-input-value'],
+      default: ['text-gray-500', 'dark:text-text-input-value'],
+      error: ['text-red-400', 'dark:text-text-input-value'],
+      success: ['text-green-400', 'dark:text-text-input-value'],
     },
     sizing: {
       md: `w-4 h-4`,
     },
-    disabled: { true: 'dark:text-df-gray-600 text-df-gray-400' },
+    disabled: { true: 'dark:text-df-gray-600' },
   },
   defaultVariants: {
     color: 'default',
@@ -263,8 +264,8 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
           <div className="flex gap-2 pb-[10px] items-center">
             <LabelPrimitive.Root
               htmlFor={_id}
-              className={cn('text-p3 text-text-text-and-icon', {
-                'dark:text-df-gray-600 text-df-gray-400': disabled,
+              className={cn('text-p3 text-gray-900 dark:text-text-text-and-icon', {
+                'dark:text-df-gray-600': disabled,
               })}
             >
               {required && <span>*</span>}

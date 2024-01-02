@@ -27,7 +27,7 @@ export const ScanStatusBadge = ({
   justIcon?: boolean;
 }) => {
   const wrapperClassName = cn(
-    'flex items-center gap-1.5 text-text-text-and-icon  text-p4',
+    'flex items-center gap-1.5 dark:text-text-text-and-icon text-p4',
     className,
   );
 
@@ -48,7 +48,7 @@ export const ScanStatusBadge = ({
   } else if (isScanFailed(status)) {
     return (
       <div className={wrapperClassName}>
-        <span className={cn(iconWrapper, 'text-status-error')}>
+        <span className={cn(iconWrapper, 'dark:text-status-error')}>
           <ErrorIcon />
         </span>
         {!justIcon ? <TruncatedText text={scanStatus} /> : null}
@@ -57,7 +57,7 @@ export const ScanStatusBadge = ({
   } else if (isNeverScanned(status)) {
     return (
       <div className={wrapperClassName}>
-        <span className={cn(iconWrapper, 'text-df-gray-400 dark:text-df-gray-600')}>
+        <span className={iconWrapper}>
           <NotStartedIcon />
         </span>
         <TruncatedText text={'Never Scanned'} />
@@ -85,7 +85,7 @@ export const ScanStatusBadge = ({
   } else if (isScanStopped(status)) {
     return (
       <div className={wrapperClassName}>
-        <span className={cn(iconWrapper, 'dark:text-df-gray-500 text-df-gray-400')}>
+        <span className={cn(iconWrapper, 'dark:text-df-gray-500')}>
           <ErrorIcon />
         </span>
 

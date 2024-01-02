@@ -27,7 +27,7 @@ export const DockerConnectorForm = ({ errorMessage, fieldErrors }: RegistryFormP
       <div className="text-p7 dark:text-text-input-value">
         Connect to your Docker Registry. Find out more information by{' '}
         <DFLink
-          href={`https://community.toae.io/threatmapper/docs/v2.0/registries/`}
+          href={`https://toaesecurity.com/contact/docs/v2.1/registries/`}
           target="_blank"
           rel="noreferrer"
         >
@@ -98,7 +98,9 @@ export const DockerConnectorForm = ({ errorMessage, fieldErrors }: RegistryFormP
           Supported Versions: API version v2
         </div>
       </div>
-      {errorMessage && <p className="mt-4 text-status-error text-p7">{errorMessage}</p>}
+      {errorMessage && (
+        <p className="mt-4 dark:text-status-error text-p7">{errorMessage}</p>
+      )}
     </>
   );
 };

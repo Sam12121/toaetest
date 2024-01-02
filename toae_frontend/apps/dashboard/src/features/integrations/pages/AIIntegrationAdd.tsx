@@ -171,7 +171,7 @@ const AIIntegrationAdd = () => {
     >
       <SlidingModalCloseButton />
       <SlidingModalHeader>
-        <div className="text-h3 text-text-text-and-icon py-4 px-4 dark:bg-bg-breadcrumb-bar bg-[#f6f7f9]">
+        <div className="text-h3 dark:text-text-text-and-icon py-4 px-4 dark:bg-bg-breadcrumb-bar">
           Add Generative AI Integration
         </div>
       </SlidingModalHeader>
@@ -213,7 +213,7 @@ const AIIntegrationAdd = () => {
             )}
 
             {fetcher.data?.message && (
-              <p className="text-status-error text-p7">{fetcher.data?.message}</p>
+              <p className="dark:text-status-error text-p7">{fetcher.data?.message}</p>
             )}
 
             <div className="flex gap-x-2 p-1">

@@ -1,0 +1,14 @@
+import { cn } from 'tailwind-preset';
+
+type CardType = {
+  children: React.ReactNode;
+  className?: string;
+};
+export const Card = (props: CardType) => {
+  const { className = '' } = props;
+  return (
+    <div className={cn('rounded-[5px] bg-bg-card dark:shadow-none shadow-md', className)}>
+      {props.children}
+    </div>
+  );
+};

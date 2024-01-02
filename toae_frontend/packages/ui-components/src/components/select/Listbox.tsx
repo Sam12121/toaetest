@@ -24,34 +24,34 @@ const ListboxContext = createContext<{
 const defaultStyle = cn(
   // border
   'dark:border rounded-[5px]',
-  'border-bg-grid-border',
+  'border-bg-grid-border dark:border-bg-grid-border',
   // bg styles
-  'bg-bg-card',
+  'bg-bg-card dark:bg-bg-card',
   // placeholder styles
-  'placeholder-gray-400 disabled:placeholder-gray-400',
+  'placeholder-gray-400 disabled:placeholder-gray-500',
   'dark:placeholder-gray-400 dark:disabled:placeholder-gray-500',
   // text styles
-  'text-text-input-value',
+  'text-text-input-value dark:text-text-input-value',
   // disabled text color
-  'disabled:text-gray-400 dark:disabled:text-gray-600',
+  'disabled:text-gray-600 dark:disabled:text-gray-600',
 );
 const defaultUnderlineStyle = cn(
   'focus-visible:outline-none',
   'bg-transparent dark:bg-transparent',
-  'border-transparent border-b rounded-none',
-  'border-b-text-text-and-icon dark:disabled:border-b-gray-600 disabled:border-b-gray-400',
+  'dark:border-transparent dark:border-b rounded-none',
+  'dark:border-b-text-text-and-icon dark:disabled:border-b-gray-600',
   // active
   'df-input',
   'transition-[background-size] duration-[0.2s] ease-[ease]',
-  'focus:bg-[length:100%_100%] focus:border-b-accent-accent focus:bg-no-repeat',
+  'dark:focus:bg-[length:100%_100%] dark:focus:border-b-accent-accent dark:focus:bg-no-repeat',
   'data-[headlessui-state=open]:dark:border-b-accent-accent',
 
-  'placeholder-gray-400 disabled:placeholder-gray-400',
+  'placeholder-gray-400 disabled:placeholder-gray-500',
   'dark:placeholder-gray-400 dark:disabled:placeholder-gray-500',
   // text styles
-  'text-text-input-value',
+  'text-text-input-value dark:text-text-input-value',
   // disabled text color
-  'disabled:text-gray-400 dark:disabled:text-gray-600',
+  'disabled:text-gray-600 dark:disabled:text-gray-600',
 );
 const buttonCva = cva(['relative', 'disabled:cursor-not-allowed', 'py-[5px] px-2'], {
   variants: {
@@ -78,7 +78,7 @@ const buttonCva = cva(['relative', 'disabled:cursor-not-allowed', 'py-[5px] px-2
       color: 'error',
       className: cn(
         defaultUnderlineStyle,
-        'df-error data-[headlessui-state=open]:border-b-status-error focus:border-b-status-error border-b-status-error',
+        'df-error data-[headlessui-state=open]:dark:border-b-[#f55b47] dark:focus:border-b-[#f55b47] dark:border-b-[#f55b47]',
       ),
     },
   ],
@@ -140,7 +140,7 @@ const OptionsWrapper = ({
 }) => {
   if (children === null || isEmpty(children)) {
     return (
-      <div className="py-3 px-2 w-full flex items-center justify-center text-p6 text-text-text-and-icon">
+      <div className="py-3 px-2 w-full flex items-center justify-center text-p6 dark:text-text-text-and-icon">
         {noDataText?.length ? noDataText : 'No results found'}
       </div>
     );
@@ -207,9 +207,12 @@ export function Listbox<TType, TActualType>({
               {label && (
                 <HUIListbox.Label
                   htmlFor={_id}
-                  className={cn('text-p3 text-text-text-and-icon pb-[10px]', {
-                    'text-gray-400 dark:text-gray-600': disabled,
-                  })}
+                  className={cn(
+                    'text-p3 text-text-text-and-icon dark:text-text-text-and-icon pb-[10px]',
+                    {
+                      'text-gray-600 dark:text-gray-600': disabled,
+                    },
+                  )}
                 >
                   {required && <span>*</span>}
                   {label}
@@ -257,7 +260,7 @@ export function Listbox<TType, TActualType>({
                 </PopoverPrimitive.Trigger>
                 <PopoverPrimitive.Portal>
                   <PopoverPrimitive.Content align="start" sideOffset={2} asChild>
-                    <div className="data-[side=top]:animate-slide-up data-[side=bottom]:animate-slide-down w-[var(--radix-popper-anchor-width)] bg-bg-card border border-bg-grid-border rounded-[5px] overflow-hidden">
+                    <div className="data-[side=top]:animate-slide-up data-[side=bottom]:animate-slide-down w-[var(--radix-popper-anchor-width)] dark:bg-bg-card dark:border dark:border-bg-grid-border rounded-[5px] overflow-hidden">
                       <HUIListbox.Options>
                         <div
                           className={cn(
@@ -266,7 +269,7 @@ export function Listbox<TType, TActualType>({
                             'overflow-auto',
                             'focus:visible:outline-none',
                             // text
-                            'text-text-text-and-icon',
+                            'text-text-text-and-icon dark:text-text-text-and-icon',
                           )}
                         >
                           <OptionsWrapper noDataText={noDataText}>
@@ -293,7 +296,7 @@ export function Listbox<TType, TActualType>({
                                   onClick={() => {
                                     onClearAll?.();
                                   }}
-                                  className="flex text-accent-accent items-center text-p6"
+                                  className="flex dark:text-accent-accent items-center text-p6"
                                 >
                                   {clearAll}
                                 </button>
@@ -350,10 +353,10 @@ export function ListboxOption<TType>({
           'pt-2 pb-1 px-2',
           'flex gap-1.5',
           'cursor-pointer',
-          'hover:bg-bg-hover-2',
+          'dark:hover:bg-bg-grid-header',
           {
-            'bg-bg-grid-header': active,
-            'bg-bg-active-selection text-text-input-value': selected,
+            'dark:bg-bg-grid-header': active,
+            'dark:bg-bg-active-selection dark:text-text-input-value': selected,
           },
           'outline-none focus:outline-none',
         );
@@ -385,7 +388,7 @@ function getPlaceholderValue<T extends unknown | unknown[]>(
     (Array.isArray(value) && value.length === 0)
   ) {
     return (
-      <span className="dark:text-gray-600 text-gray-400 block">
+      <span className="dark:text-gray-600 block">
         {defaultPlaceholder || 'Select...'}
       </span>
     );

@@ -69,13 +69,12 @@ import {
 import { SeverityBadge } from '@/components/SeverityBadge';
 import { SecretsIcon } from '@/components/sideNavigation/icons/Secrets';
 import { TruncatedText } from '@/components/TruncatedText';
-import { getSeverityColorMap } from '@/constants/charts';
+import { SEVERITY_COLORS } from '@/constants/charts';
 import { useDownloadScan } from '@/features/common/data-component/downloadScanAction';
 import { SecretScanResultsPieChart } from '@/features/secrets/components/scan-results/SecretScanResultsPieChart';
 import { SecretsCompare } from '@/features/secrets/components/scan-results/SecretsCompare';
 import { SuccessModalContent } from '@/features/settings/components/SuccessModalContent';
 import { invalidateAllQueries, queries } from '@/queries';
-import { useTheme } from '@/theme/ThemeContext';
 import { ScanTypeEnum, SecretSeverityType } from '@/types/common';
 import { get403Message, getResponseErrors } from '@/utils/403';
 import { apiWrapper } from '@/utils/api';
@@ -342,7 +341,7 @@ const DeleteConfirmationModal = ({
       onOpenChange={() => setShowDialog(false)}
       title={
         !fetcher.data?.success ? (
-          <div className="flex gap-3 items-center text-status-error">
+          <div className="flex gap-3 items-center dark:text-status-error">
             <span className="h-6 w-6 shrink-0">
               <ErrorStandardLineIcon />
             </span>
@@ -383,7 +382,7 @@ const DeleteConfirmationModal = ({
           <br />
           <span>Are you sure you want to delete?</span>
           {fetcher.data?.message && (
-            <p className="mt-2 text-p7 text-status-error">{fetcher.data?.message}</p>
+            <p className="mt-2 text-p7 dark:text-status-error">{fetcher.data?.message}</p>
           )}
         </div>
       ) : (
@@ -428,7 +427,7 @@ const DeleteScanConfirmationModal = ({
       size="s"
       title={
         !fetcher.data?.success ? (
-          <div className="flex gap-3 items-center text-status-error">
+          <div className="flex gap-3 items-center dark:text-status-error">
             <span className="h-6 w-6 shrink-0">
               <ErrorStandardLineIcon />
             </span>
@@ -469,7 +468,7 @@ const DeleteScanConfirmationModal = ({
             Are you sure you want to delete this scan? This action cannot be undone.
           </span>
           {fetcher.data?.message && (
-            <p className="text-p7 text-status-error">{fetcher.data?.message}</p>
+            <p className="text-p7 dark:text-status-error">{fetcher.data?.message}</p>
           )}
           <div className="flex items-center justify-right gap-4"></div>
         </div>
@@ -528,7 +527,9 @@ const NotifyModal = ({
               <Checkbox label="Yes notify them separately" name="notifyIndividual" />
             </div>
             {fetcher.data?.message && (
-              <p className="mt-2 text-p7 text-status-error">{fetcher.data?.message}</p>
+              <p className="mt-2 text-p7 dark:text-status-error">
+                {fetcher.data?.message}
+              </p>
             )}
           </div>
           <div className={'flex gap-x-3 justify-end pt-3 mx-2'}>
@@ -563,7 +564,7 @@ const ScanHistory = () => {
       <span className="h-3.5 w-3.5 dark:text-text-input-value">
         <ClockLineIcon />
       </span>
-      <span className="pl-2 pr-3 text-t3 text-text-text-and-icon uppercase">
+      <span className="pl-2 pr-3 text-t3 dark:text-text-text-and-icon uppercase">
         scan time
       </span>
       <Suspense
@@ -961,7 +962,7 @@ const ActionDropdown = ({
               setIdsToDelete(ids);
               setShowDeleteDialog(true);
             }}
-            className="text-status-error hover:text-[#C45268]"
+            className="dark:text-status-error dark:hover:text-[#C45268]"
           >
             Delete
           </DropdownItem>
@@ -1563,7 +1564,7 @@ const SecretTable = ({
 
 const Header = () => {
   return (
-    <div className="flex pl-4 pr-4 py-2 w-full items-center bg-bg-breadcrumb-bar dark:border-none border-b border-bg-grid-border">
+    <div className="flex pl-4 pr-4 py-2 w-full items-center bg-white dark:bg-bg-breadcrumb-bar">
       <>
         <Breadcrumb>
           <BreadcrumbLink asChild icon={<SecretsIcon />} isLink>
@@ -1708,7 +1709,6 @@ const SeverityCounts = ({
     [k: string]: number;
   };
 }) => {
-  const { mode } = useTheme();
   const [, setSearchParams] = useSearchParams();
 
   return (
@@ -1719,8 +1719,7 @@ const SeverityCounts = ({
             <div
               className="h-3 w-3 rounded-full"
               style={{
-                backgroundColor:
-                  getSeverityColorMap(mode)[key.toLowerCase() as SecretSeverityType],
+                backgroundColor: SEVERITY_COLORS[key.toLowerCase() as SecretSeverityType],
               }}
             ></div>
             <button
@@ -1919,7 +1918,7 @@ const Widgets = () => {
         </div>
       </Card>
       <Card className="px-4 py-1.5 flex flex-col">
-        <div className="text-h6 text-text-input-value py-1">Top 5 secrets</div>
+        <div className="text-h6 dark:text-text-input-value py-1">Top 5 secrets</div>
         <div className="mt-2 flex-1">
           <Suspense
             fallback={

@@ -58,11 +58,11 @@ export const AWSCloudFormation = () => {
           }
           title="Cloud Formation"
         >
-          <div className="text-p7 text-text-text-and-icon">
+          <div className="text-p7 dark:text-text-text-and-icon">
             Connect to your AWS Cloud Account via Cloud Formation. Find out more
             information by{' '}
             <Link
-              to="https://community.toae.io/threatmapper/docs/v2.0/cloudscanner/aws#cloudformation"
+              to="https://toaesecurity.com/contact/docs/v2.1/cloudscanner/aws#cloudformation"
               className="text-blue-600 dark:text-blue-500"
             >
               reading our documentation
@@ -113,7 +113,7 @@ export const AWSCloudFormation = () => {
               information on AWS Organizations and account types, see AWS docs.
             </p>
             <DFLink
-              href={`https://${region}.console.aws.amazon.com/cloudformation/home?region=${region}#/stacks/create/review?templateURL=https://toae-public.s3.amazonaws.com/cloud-scanner/toae-cloud-scanner.template&stackName=Toae-Cloud-Scanner&param_CloudScannerImage=quay.io/toaeio/cloud-scanner:2.0.1`}
+              href={`https://${region}.console.aws.amazon.com/cloudformation/home?region=${region}#/stacks/create/review?templateURL=https://toae-public.s3.amazonaws.com/cloud-scanner/toae-cloud-scanner.template&stackName=Toae-Cloud-Scanner&param_CloudScannerImage=quay.io/toaeio/cloud-scanner:2.1.0`}
               target="_blank"
               rel="noreferrer"
               className="flex items-center mt-4"
@@ -132,7 +132,7 @@ export const AWSCloudFormation = () => {
             </DFLink>
 
             <DFLink
-              href={`https://${region}.console.aws.amazon.com/cloudformation/home?region=${region}#/stacks/create/review?templateURL=https://toae-public.s3.amazonaws.com/cloud-scanner/toae-cloud-scanner-org-common.template&stackName=Toae-Cloud-Scanner&param_CloudScannerImage=quay.io/toaeio/cloud-scanner:2.0.1`}
+              href={`https://${region}.console.aws.amazon.com/cloudformation/home?region=${region}#/stacks/create/review?templateURL=https://toae-public.s3.amazonaws.com/cloud-scanner/toae-cloud-scanner-org-common.template&stackName=Toae-Cloud-Scanner&param_CloudScannerImage=quay.io/toaeio/cloud-scanner:2.1.0`}
               target="_blank"
               rel="noreferrer"
               className="flex items-center mt-4"

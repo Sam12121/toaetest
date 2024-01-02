@@ -1,18 +1,11 @@
 import { preset } from 'tailwind-preset';
 
 import { ECOption, ReactECharts } from '@/components/ReactEcharts';
-import { getSeverityColorMap } from '@/constants/charts';
-import { Mode, useTheme } from '@/theme/ThemeContext';
-import { SecretSeverityType, VulnerabilitySeverityType } from '@/types/common';
+import { SEVERITY_COLORS } from '@/constants/charts';
+import { VulnerabilitySeverityType } from '@/types/common';
 import { abbreviateNumber } from '@/utils/number';
 
-function getChartOptions({
-  data,
-  theme,
-}: {
-  data: { [key: string]: number };
-  theme: Mode;
-}) {
+function getChartOptions({ data }: { data: { [key: string]: number } }) {
   const option: ECOption = {
     backgroundColor: 'transparent',
     tooltip: {
@@ -55,8 +48,8 @@ function getChartOptions({
               name: key,
               itemStyle: {
                 color:
-                  getSeverityColorMap(theme)[key as SecretSeverityType] ??
-                  getSeverityColorMap(theme)['unknown'],
+                  SEVERITY_COLORS[key as VulnerabilitySeverityType] ??
+                  SEVERITY_COLORS['unknown'],
               },
             };
           }),
@@ -73,10 +66,9 @@ export const SecretScanResultsPieChart = ({
   data: { [key: string]: number };
   onChartClick: (data: { name: string; value: string | number | Date }) => void;
 }) => {
-  const { mode } = useTheme();
   if (!data) {
     return null;
   }
-  const options = getChartOptions({ data, theme: mode });
+  const options = getChartOptions({ data });
   return <ReactECharts theme="dark" option={options} onChartClick={onChartClick} />;
 };

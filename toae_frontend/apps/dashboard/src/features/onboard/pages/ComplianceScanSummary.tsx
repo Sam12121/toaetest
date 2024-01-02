@@ -5,10 +5,9 @@ import { createColumnHelper, Table, TableSkeleton } from 'ui-components';
 
 import { DFLink } from '@/components/DFLink';
 import { TruncatedText } from '@/components/TruncatedText';
-import { getPostureColor } from '@/constants/charts';
+import { POSTURE_STATUS_COLORS } from '@/constants/charts';
 import { ConnectorHeader } from '@/features/onboard/components/ConnectorHeader';
 import { queries } from '@/queries';
-import { useTheme } from '@/theme/ThemeContext';
 import { ScanTypeEnum } from '@/types/common';
 
 const DEFAULT_PAGE_SIZE = 10;
@@ -30,7 +29,6 @@ const useGetScanSummary = () => {
   }
 };
 export const useTableColumn = () => {
-  const { mode } = useTheme();
   const { scanType, nodeType } = useParams() as {
     scanType: string;
     nodeType: string;
@@ -51,7 +49,7 @@ export const useTableColumn = () => {
             <div
               className="w-3 h-3 rounded-full"
               style={{
-                backgroundColor: getPostureColor(mode)['alarm'],
+                backgroundColor: POSTURE_STATUS_COLORS['alarm'],
               }}
             ></div>
             <span>{info.getValue() ?? 0}</span>
@@ -71,7 +69,7 @@ export const useTableColumn = () => {
             <div
               className="w-3 h-3 rounded-full"
               style={{
-                backgroundColor: getPostureColor(mode)['info'],
+                backgroundColor: POSTURE_STATUS_COLORS['info'],
               }}
             ></div>
             <span>{info.getValue() ?? 0}</span>
@@ -91,7 +89,7 @@ export const useTableColumn = () => {
             <div
               className="w-3 h-3 rounded-full"
               style={{
-                backgroundColor: getPostureColor(mode)['ok'],
+                backgroundColor: POSTURE_STATUS_COLORS['ok'],
               }}
             ></div>
             <span>{info.getValue() ?? 0}</span>
@@ -111,7 +109,7 @@ export const useTableColumn = () => {
             <div
               className="w-3 h-3 rounded-full"
               style={{
-                backgroundColor: getPostureColor(mode)['skip'],
+                backgroundColor: POSTURE_STATUS_COLORS['skip'],
               }}
             ></div>
             <span>{info.getValue() ?? 0}</span>
@@ -131,7 +129,7 @@ export const useTableColumn = () => {
             <div
               className="w-3 h-3 rounded-full"
               style={{
-                backgroundColor: getPostureColor(mode)['delete'],
+                backgroundColor: POSTURE_STATUS_COLORS['delete'],
               }}
             ></div>
             <span>{info.getValue() ?? 0}</span>
@@ -161,7 +159,7 @@ export const useTableColumn = () => {
                   <div
                     className="w-3 h-3 rounded-full"
                     style={{
-                      backgroundColor: getPostureColor(mode)['info'],
+                      backgroundColor: POSTURE_STATUS_COLORS['info'],
                     }}
                   ></div>
                   <span>{info.getValue() ?? 0}</span>
@@ -181,7 +179,7 @@ export const useTableColumn = () => {
                   <div
                     className="w-3 h-3 rounded-full"
                     style={{
-                      backgroundColor: getPostureColor(mode)['pass'],
+                      backgroundColor: POSTURE_STATUS_COLORS['pass'],
                     }}
                   ></div>
                   <span>{info.getValue() ?? 0}</span>
@@ -201,7 +199,7 @@ export const useTableColumn = () => {
                   <div
                     className="w-3 h-3 rounded-full"
                     style={{
-                      backgroundColor: getPostureColor(mode)['warn'],
+                      backgroundColor: POSTURE_STATUS_COLORS['warn'],
                     }}
                   ></div>
                   <span>{info.getValue() ?? 0}</span>
@@ -221,7 +219,7 @@ export const useTableColumn = () => {
                   <div
                     className="w-3 h-3 rounded-full"
                     style={{
-                      backgroundColor: getPostureColor(mode)['note'],
+                      backgroundColor: POSTURE_STATUS_COLORS['note'],
                     }}
                   ></div>
                   <span>{info.getValue() ?? 0}</span>

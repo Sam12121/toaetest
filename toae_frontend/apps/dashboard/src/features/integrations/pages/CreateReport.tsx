@@ -216,7 +216,7 @@ const action = async ({ request }: ActionFunctionArgs): Promise<ActionData> => {
 const Header = () => {
   return (
     <SlidingModalHeader>
-      <div className="text-h3 text-text-text-and-icon py-4 px-4 dark:bg-bg-breadcrumb-bar bg-[#f6f7f9]">
+      <div className="text-h3 dark:text-text-text-and-icon py-4 px-4 dark:bg-bg-breadcrumb-bar">
         Create new report
       </div>
     </SlidingModalHeader>
@@ -380,7 +380,7 @@ const ReportForm = () => {
           />
 
           {data?.message ? (
-            <p className="mt-4 text-p7 text-status-error">{data?.message}</p>
+            <p className="mt-4 text-p7 dark:text-status-error">{data?.message}</p>
           ) : null}
 
           <div className="mt-14 flex gap-x-2">

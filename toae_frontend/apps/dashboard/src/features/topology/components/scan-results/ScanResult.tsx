@@ -7,11 +7,11 @@ import { Card, CircleSpinner } from 'ui-components';
 import { DFLink } from '@/components/DFLink';
 import { ErrorStandardLineIcon } from '@/components/icons/common/ErrorStandardLine';
 import { ErrorStandardSolidIcon } from '@/components/icons/common/ErrorStandardSolid';
-import { getPostureColor, getSeverityColorMap } from '@/constants/charts';
+import { POSTURE_STATUS_COLORS, SEVERITY_COLORS } from '@/constants/charts';
 import { ScanResultChart } from '@/features/topology/components/scan-results/ScanResultChart';
 import { queries } from '@/queries';
-import { Mode, useTheme } from '@/theme/ThemeContext';
-import { PostureSeverityType, ScanTypeEnum, SecretSeverityType } from '@/types/common';
+import { useTheme } from '@/theme/ThemeContext';
+import { ScanTypeEnum } from '@/types/common';
 import { sortBySeverity } from '@/utils/array';
 import { formatToRelativeTimeFromNow } from '@/utils/date';
 import { abbreviateNumber } from '@/utils/number';
@@ -48,12 +48,9 @@ function useScanResultSummaryCounts(scanId = '', type: ScanTypeEnum) {
   }[type];
 }
 
-const getSeriesOption = (
-  theme: Mode,
-  counts: {
-    [x: string]: number;
-  },
-): Array<{
+const getSeriesOption = (counts: {
+  [x: string]: number;
+}): Array<{
   name: string;
   value: number;
   color: string;
@@ -64,8 +61,8 @@ const getSeriesOption = (
         name: key,
         value: counts[key],
         color:
-          getSeverityColorMap(theme)[key as SecretSeverityType] ??
-          getPostureColor(theme)[key as PostureSeverityType] ??
+          SEVERITY_COLORS[key as keyof typeof SEVERITY_COLORS] ??
+          POSTURE_STATUS_COLORS[key as keyof typeof POSTURE_STATUS_COLORS] ??
           '',
       };
     }),
@@ -130,7 +127,7 @@ const ScanResultHeading = ({
 const ScanStatusError = () => {
   return (
     <div className="flex items-center justify-center h-full w-full gap-2">
-      <div className="h-6 w-6 shrink-0 text-status-error">
+      <div className="h-6 w-6 shrink-0 dark:text-status-error">
         <ErrorStandardSolidIcon />
       </div>
       <p className="dark:text-text-text-and-icon text-h3">Scan failed</p>
@@ -190,14 +187,14 @@ const ScanResultComponent = ({
             <div className="flex items-center justify-center">
               <div className="h-[100px] w-[100px]">
                 <ScanResultChart
-                  data={getSeriesOption(mode, scanSummary.counts)}
+                  data={getSeriesOption(scanSummary.counts)}
                   theme={mode}
                   to={to}
                 />
               </div>
             </div>
             <div className="flex flex-col gap-1 self-center min-w-[150px] ml-auto pr-8">
-              {getSeriesOption(mode, scanSummary.counts).map((count) => {
+              {getSeriesOption(scanSummary.counts).map((count) => {
                 return (
                   <div className="flex gap-2 w-full items-center" key={count.name}>
                     <div

@@ -53,12 +53,11 @@ import { StopScanForm } from '@/components/scan-configure-forms/StopScanForm';
 import { ScanStatusBadge } from '@/components/ScanStatusBadge';
 import { SecretsIcon } from '@/components/sideNavigation/icons/Secrets';
 import { TruncatedText } from '@/components/TruncatedText';
-import { getSeverityColorMap } from '@/constants/charts';
+import { SEVERITY_COLORS } from '@/constants/charts';
 import { useDownloadScan } from '@/features/common/data-component/downloadScanAction';
 import { IconMapForNodeType } from '@/features/onboard/components/IconMapForNodeType';
 import { SuccessModalContent } from '@/features/settings/components/SuccessModalContent';
 import { invalidateAllQueries, queries } from '@/queries';
-import { useTheme } from '@/theme/ThemeContext';
 import { ScanTypeEnum } from '@/types/common';
 import { get403Message, getResponseErrors } from '@/utils/403';
 import { apiWrapper } from '@/utils/api';
@@ -193,7 +192,7 @@ const DeleteConfirmationModal = ({
       size="s"
       title={
         !fetcher.data?.success ? (
-          <div className="flex gap-3 items-center text-status-error">
+          <div className="flex gap-3 items-center dark:text-status-error">
             <span className="h-6 w-6 shrink-0">
               <ErrorStandardLineIcon />
             </span>
@@ -234,7 +233,7 @@ const DeleteConfirmationModal = ({
           <br />
           <span>Are you sure you want to delete?</span>
           {fetcher.data?.message && (
-            <p className="mt-2 text-p7 text-status-error">{fetcher.data?.message}</p>
+            <p className="mt-2 text-p7 dark:text-status-error">{fetcher.data?.message}</p>
           )}
         </div>
       ) : (
@@ -368,7 +367,7 @@ const ActionDropdown = ({
               }}
               disabled={!scanId || !nodeType}
             >
-              <span className="text-red-700 text-status-error hover:text-[#C45268]">
+              <span className="text-red-700 dark:text-status-error dark:hover:text-[#C45268]">
                 Delete scan
               </span>
             </DropdownItem>
@@ -625,7 +624,6 @@ const ScansTable = ({
   rowSelectionState: RowSelectionState;
   setRowSelectionState: React.Dispatch<React.SetStateAction<RowSelectionState>>;
 }) => {
-  const { mode } = useTheme();
   const [searchParams, setSearchParams] = useSearchParams();
   const { data } = useSuspenseQuery({
     ...queries.secret.scanList({
@@ -757,7 +755,7 @@ const ScansTable = ({
               <div
                 className="w-3 h-3 rounded-full shrink-0"
                 style={{
-                  backgroundColor: getSeverityColorMap(mode)['critical'],
+                  backgroundColor: SEVERITY_COLORS['critical'],
                 }}
               ></div>
               <DFLink
@@ -785,7 +783,7 @@ const ScansTable = ({
               <div
                 className="w-3 h-3 rounded-full shrink-0"
                 style={{
-                  backgroundColor: getSeverityColorMap(mode)['high'],
+                  backgroundColor: SEVERITY_COLORS['high'],
                 }}
               ></div>
               <DFLink
@@ -813,7 +811,7 @@ const ScansTable = ({
               <div
                 className="w-3 h-3 rounded-full shrink-0"
                 style={{
-                  backgroundColor: getSeverityColorMap(mode)['medium'],
+                  backgroundColor: SEVERITY_COLORS['medium'],
                 }}
               ></div>
               <DFLink
@@ -841,7 +839,7 @@ const ScansTable = ({
               <div
                 className="w-2 h-2 rounded-full shrink-0"
                 style={{
-                  backgroundColor: getSeverityColorMap(mode)['low'],
+                  backgroundColor: SEVERITY_COLORS['low'],
                 }}
               ></div>
               <DFLink
@@ -869,7 +867,7 @@ const ScansTable = ({
               <div
                 className="w-3 h-3 rounded-full shrink-0"
                 style={{
-                  backgroundColor: getSeverityColorMap(mode)['unknown'],
+                  backgroundColor: SEVERITY_COLORS['unknown'],
                 }}
               ></div>
               <DFLink
@@ -1108,7 +1106,7 @@ const SecretScans = () => {
 
   return (
     <div>
-      <div className="flex pl-4 pr-4 py-2 w-full items-center bg-bg-breadcrumb-bar dark:border-none border-b border-bg-grid-border">
+      <div className="flex pl-4 pr-4 py-2 w-full items-center bg-white dark:bg-bg-breadcrumb-bar">
         <Breadcrumb>
           <BreadcrumbLink asChild icon={<SecretsIcon />} isLink>
             <DFLink to={'/secret'} unstyled>

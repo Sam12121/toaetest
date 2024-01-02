@@ -65,7 +65,7 @@ export const Process = (props: ProcessModalProps) => {
         <ProcessHeader {...props} />
       </Suspense>
       <SlidingModalContent>
-        <div className="dark:bg-bg-breadcrumb-bar bg-[#f6f7f9]">
+        <div className="dark:bg-bg-breadcrumb-bar">
           <Tabs
             value={tab}
             defaultValue={tab}

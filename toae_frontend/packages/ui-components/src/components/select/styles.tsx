@@ -9,7 +9,7 @@ export const comboboxInputCva = cva(
     'focus:outline-none',
     'pt-1.5 pb-[5px]',
     'border-b',
-    'bg-transparent',
+    'dark:bg-transparent',
     'transition-[background-size] duration-[0.2s] ease-[ease]',
   ],
   {
