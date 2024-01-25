@@ -148,7 +148,7 @@ cli: bootstrap
 	(cd $(TOAE_CTL) && make clean && make all)
 
 .PHONY: publish
-publish: publish-redis publish-postgres publish-kafka publish-router publish-minio publish-server publish-worker publish-ui publish-agent publish-cluster-agent publish-packagescanner publish-secretscanner publish-malwarescanner publish-graphdb publish-jaeger
+publish: publish-redis publish-postgres publish-kafka publish-router publish-minio publish-server publish-worker publish-ui publish-agent publish-cloud-scanner publish-packagescanner publish-secretscanner publish-malwarescanner publish-graphdb publish-jaeger
 
 .PHONY: publish-redis
 publish-redis:
@@ -186,9 +186,9 @@ publish-ui:
 publish-agent:
 	docker push $(IMAGE_REPOSITORY)/toae_agent_ce:$(DF_IMG_TAG)
 
-.PHONY: publish-cluster-agent
-publish-cluster-agent:
-	docker push $(IMAGE_REPOSITORY)/toae_cluster_agent_ce:$(DF_IMG_TAG)
+.PHONY: publish-cloud-scanner
+publish-cloud-scanner:
+	docker push $(IMAGE_REPOSITORY)/toae_cloud-scanner:$(DF_IMG_TAG)
 
 .PHONY: publish-packagescanner
 publish-packagescanner:
