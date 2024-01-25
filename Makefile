@@ -188,7 +188,7 @@ publish-agent:
 
 .PHONY: publish-cloud-scanner
 publish-cloud-scanner:
-	docker push $(IMAGE_REPOSITORY)/toae_cloud-scanner:$(DF_IMG_TAG)
+	docker push $(IMAGE_REPOSITORY)/cloud-scanner:$(DF_IMG_TAG)
 
 .PHONY: publish-packagescanner
 publish-packagescanner:
