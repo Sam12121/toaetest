@@ -6,6 +6,10 @@
 	path = toae_agent/plugins/package-scanner
 	url = https://github.com/Sam12121/package-scanner
 	branch = main
+[submodule "toae_agent/plugins/cloud-scanner"]
+	path = toae_agent/plugins/cloud-scanner
+	url = https://github.com/toae/cloud-scanner
+	branch = main
 [submodule "toae_agent/plugins/SecretScanner"]
 	path = toae_agent/plugins/SecretScanner
 	url = https://github.com/Sam12121/SecretScanner
