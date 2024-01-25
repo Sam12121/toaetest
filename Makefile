@@ -9,6 +9,7 @@ export SECRET_SCANNER_DIR=$(TOAE_AGENT_DIR)/plugins/SecretScanner
 export MALWARE_SCANNER_DIR=$(TOAE_AGENT_DIR)/plugins/YaraHunter/
 export PACKAGE_SCANNER_DIR=$(TOAE_AGENT_DIR)/plugins/package-scanner
 export COMPLIANCE_SCANNER_DIR=$(TOAE_AGENT_DIR)/plugins/compliance
+export CLOUD_SCANNER_DIR=$(TOAE_AGENT_DIR)/plugins/cloud-scanner
 export TOAE_CTL=$(PWD)/toae_ctl
 export TOAED=$(PWD)/toae_bootstrapper
 export IMAGE_REPOSITORY?=toaeio
@@ -46,6 +47,7 @@ bootstrap-agent-plugins:
 	(cd $(PACKAGE_SCANNER_DIR) && bash bootstrap.sh)
 	(cd $(SECRET_SCANNER_DIR) && bash bootstrap.sh)
 	(cd $(MALWARE_SCANNER_DIR) && bash bootstrap.sh)
+	(cd $(CLOUD_SCANNER_DIR) && bash bootstrap.sh)
 
 .PHONY: agent
 agent: go1_20_builder debian_builder toaed console_plugins
