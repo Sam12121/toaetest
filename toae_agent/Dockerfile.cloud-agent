@@ -31,6 +31,9 @@ RUN apt-get update \
     && mkdir -p /opt/steampipe /var/log/toaed \
     && chown toae /opt/steampipe
 
+# Create directory /home/deepfence with correct permissions
+RUN mkdir -p /home/deepfence && chown toae:root /home/deepfence
+
 # Installing FluentBit
 #RUN mkdir -p /etc/td-agent-bit/ /root/fluentbit
 #COPY tools/apache/fluentbit/* /etc/td-agent-bit/
@@ -74,9 +77,6 @@ COPY --from=steampipe /usr/local/bin/steampipe-plugin-aws.plugin /home/toae/.ste
 COPY --from=steampipe /usr/local/bin/steampipe-plugin-gcp.plugin /home/toae/.steampipe/plugins/hub.steampipe.io/plugins/turbot/gcp@latest/steampipe-plugin-gcp.plugin
 COPY --from=steampipe /usr/local/bin/steampipe-plugin-azure.plugin /home/toae/.steampipe/plugins/hub.steampipe.io/plugins/turbot/azure@latest/steampipe-plugin-azure.plugin
 COPY --from=steampipe /usr/local/bin/steampipe-plugin-azuread.plugin /home/toae/.steampipe/plugins/hub.steampipe.io/plugins/turbot/azuread@latest/steampipe-plugin-azuread.plugin
-
-# Create directory /home/deepfence with correct permissions
-RUN mkdir -p /home/deepfence && chown toae:root /home/deepfence
 
 # Create symbolic link for /home/deepfence
 RUN ln -s /home/toae /home/deepfence
