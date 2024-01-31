@@ -8,25 +8,33 @@ FROM $IMAGE_REPOSITORY/steampipe:$DF_IMG_TAG AS steampipe
 # Use golang base image for build
 FROM golang:1.21-bookworm AS build
 
-# Set the working directory for the build stage
 WORKDIR /home/toae/plugins/cloud-scanner
-
-# Copy cloud-scanner plugin source code
 COPY plugins/cloud-scanner .
 
 # Switch to Debian base image for the final image
 FROM debian:bookworm-slim
 
-# Maintainer information
-LABEL maintainer="TOAE SECURITY Inc"
-LABEL toae.role=system
+# Install NGINX
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends nginx && \
+    rm -rf /var/lib/apt/lists/*
 
-# Define environment variables
-ENV DEEPFENCE_KEY=$TOAE_KEY \
-    HOME_DIR="/home/toae" \
-    COMPLIANCE_MOD_PATH="/opt/steampipe"
+# Copy NGINX configuration file
+COPY nginx.conf.template /etc/nginx/nginx.conf
 
-# Update package repositories and install required packages
+# Create NGINX SSL directory
+RUN mkdir -p /etc/nginx/ssl
+
+# Generate SSL certificate and key
+RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+    -keyout /etc/nginx/ssl/nginx-selfsigned.key \
+    -out /etc/nginx/ssl/nginx-selfsigned.crt \
+    -subj "/C=US/ST=State/L=City/O=Organization/CN=localhost"
+
+# Create a directory for the cloud-scanner plugin
+RUN mkdir -p /opt/steampipe
+
+# Install required packages
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         bash \
@@ -35,40 +43,53 @@ RUN apt-get update \
         nano \
         logrotate \
         sudo \
-        openssl \
-        nginx \
     && rm -rf /var/lib/apt/lists/*
 
-# Create a non-root user 'toae' with sudo privileges
-RUN useradd -rm -d /home/toae -s /bin/bash -g root -G sudo -u 1001 toae
+# Create user and set permissions
+RUN useradd -rm -d /home/toae -s /bin/bash -g root -G sudo -u 1001 toae \
+    && mkdir -p /home/deepfence \
+    && chown -R toae:root /home/deepfence
 
 # Grant sudo privileges to user 'toae' without password prompt
 RUN echo 'toae ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers.d/toae
 
-# Create directory for SSL certificates and keys
-RUN mkdir -p /etc/nginx/ssl/
-
-# Generate self-signed SSL certificate and key
-RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-    -keyout /etc/nginx/ssl/nginx-selfsigned.key \
-    -out /etc/nginx/ssl/nginx-selfsigned.crt \
-    -subj "/C=US/ST=State/L=City/O=Organization/CN=localhost"
+# Copy scripts and configuration files
+COPY etc/fenced_logrotate.conf /etc/logrotate.d/logrotate.conf
+COPY start_cloud_agent.sh /entrypoint.sh
 
 # Copy NGINX configuration files
 COPY nginx.conf.template /etc/nginx/nginx.conf.template
 COPY default.conf.template /etc/nginx/sites-available/default.conf.template
 
-# Copy entrypoint script
-COPY start_cloud_agent.sh /entrypoint.sh
-
 # Set permissions for entrypoint script
 RUN chmod +x /entrypoint.sh
 
-# Switch to non-root user 'toae'
+# Switch to the 'toae' user
 USER toae
 
-# Set the entrypoint script
-ENTRYPOINT ["/entrypoint.sh"]
+# Set the working directory
+WORKDIR /opt/steampipe
 
-# Command to run when the container starts
+# Copy the steampipe binary from the steampipe stage
+COPY --from=steampipe /usr/local/bin/steampipe /usr/local/bin/steampipe
+
+# Install steampipe plugins
+RUN steampipe service start \
+    && steampipe plugin install steampipe \
+    && steampipe plugin install aws@0.118.1 gcp@0.43.0 azure@0.49.0 azuread@0.12.0 \
+    && git clone https://github.com/turbot/steampipe-mod-aws-compliance.git --branch v0.79 --depth 1 \
+    && git clone https://github.com/turbot/steampipe-mod-gcp-compliance.git --branch v0.21 --depth 1 \
+    && git clone https://github.com/turbot/steampipe-mod-azure-compliance.git --branch v0.35 --depth 1 \
+    && steampipe service stop
+
+# Set environment variables
+ENV VERSION=2.1.0 \
+    PUBLISH_CLOUD_RESOURCES_INTERVAL_MINUTES=5 \
+    FETCH_CLOUD_RESOURCES_INTERVAL_HOURS=12
+
+# Expose port 8080
+EXPOSE 8080
+
+# Set the entrypoint and default command
+ENTRYPOINT ["/entrypoint.sh"]
 CMD ["/usr/local/bin/cloud_scanner"]
