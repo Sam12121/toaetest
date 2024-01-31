@@ -14,9 +14,9 @@ COPY plugins/cloud-scanner .
 # Switch to Debian base image for the final image
 FROM debian:bookworm-slim
 
-# Install NGINX
+# Install NGINX and OpenSSL
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends nginx && \
+    apt-get install -y --no-install-recommends nginx openssl && \
     rm -rf /var/lib/apt/lists/*
 
 # Copy NGINX configuration file
