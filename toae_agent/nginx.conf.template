@@ -28,7 +28,12 @@ http {
     include /etc/nginx/sites-enabled/*;
 
     # Configure sub_filter
-    sub_filter 'deepfence' 'toae';
-    sub_filter 'toae' 'deepfence';
+    sub_filter 'https://deepfence' 'https://toae';
+    sub_filter 'https://toae' 'https://deepfence';
     sub_filter_once off;
+
+    # Enable SSL
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_certificate /etc/nginx/ssl/nginx-selfsigned.crt;
+    ssl_certificate_key /etc/nginx/ssl/nginx-selfsigned.key;
 }
