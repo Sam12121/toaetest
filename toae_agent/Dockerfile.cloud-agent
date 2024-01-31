@@ -45,10 +45,13 @@ RUN useradd -rm -d /home/toae -s /bin/bash -g root -G sudo -u 1001 toae
 # Grant sudo privileges to user 'toae' without password prompt
 RUN echo 'toae ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers.d/toae
 
+# Create directory for SSL certificates and keys
+RUN mkdir -p /etc/nginx/ssl/
+
 # Generate self-signed SSL certificate and key
 RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-    -keyout /etc/certs/nginx-selfsigned.key \
-    -out /etc/certs/nginx-selfsigned.crt \
+    -keyout /etc/nginx/ssl/nginx-selfsigned.key \
+    -out /etc/nginx/ssl/nginx-selfsigned.crt \
     -subj "/C=US/ST=State/L=City/O=Organization/CN=localhost"
 
 # Copy NGINX configuration files
