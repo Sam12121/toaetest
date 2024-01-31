@@ -36,8 +36,6 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
     -out /etc/nginx/ssl/nginx-selfsigned.crt \
     -subj "/C=US/ST=State/L=City/O=Organization/CN=localhost"
 
-# Create a directory for the cloud-scanner plugin
-RUN mkdir -p /opt/steampipe
 
 # Install required packages
 RUN apt-get update \
