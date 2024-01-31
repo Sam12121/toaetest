@@ -14,21 +14,15 @@ FROM debian:bookworm-slim
 MAINTAINER TOAE SECURITY Inc
 LABEL toae.role=system
 
-ENV CHECKPOINT_DISABLE=true \
-    DF_TLS_ON="1" \
-    MGMT_CONSOLE_PORT=443 \
-    MGMT_CONSOLE_URL_SCHEMA=https \
-    TOAE_KEY="" \
-    DEEPFENCE_KEY=$TOAE_KEY \
-    DF_ENABLE_CLOUD_NODE="true" \
+ENV DEEPFENCE_KEY=$TOAE_KEY \
     HOME_DIR="/home/toae" \
     COMPLIANCE_MOD_PATH="/opt/steampipe"
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends bash git ca-certificates nano logrotate sudo supervisor \
+    && apt-get install -y --no-install-recommends bash git ca-certificates nano logrotate sudo \
     #&& apt-get install -y --no-install-recommends postgresql-client-15 \
     && useradd -rm -d /home/toae -s /bin/bash -g root -G sudo -u 1001 toae \
-    && mkdir -p /opt/steampipe /var/log/toaed \
+    && mkdir  /opt/steampipe \
     && chown toae /opt/steampipe
 
 # Create directory /home/deepfence with correct permissions
@@ -40,20 +34,20 @@ RUN mkdir -p /home/deepfence && chown toae:root /home/deepfence
 
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
-COPY etc/fenced_logrotate.conf /etc/logrotate.d/fenced_logrotate.conf
-RUN chmod 600 /etc/logrotate.d/fenced_logrotate.conf
+COPY etc/fenced_logrotate.conf /etc/logrotate.d/logrotate.conf
+RUN chmod 600 /etc/logrotate.d/logrotate.conf
 
 COPY start_cloud_agent.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 #COPY plugins/fluent-bit/build/bin/fluent-bit /opt/td-agent-bit/bin/
 
-RUN chown -R toae:root /opt/ /home/toae /var/log /var/run/
+#    RUN chown -R toae:root /opt/ /home/toae /var/log /var/run/
 #    && chown -R root:root /etc/td-agent-bit/ /root/fluentbit
 
 WORKDIR /opt/steampipe
 
 USER toae
-COPY supervisord-cloud.conf /home/toae/supervisord.conf
+#    COPY supervisord-cloud.conf /home/toae/supervisord.conf
 COPY --from=steampipe /usr/local/bin/steampipe /usr/local/bin/steampipe
 
 RUN steampipe service start \
@@ -65,7 +59,7 @@ RUN steampipe service start \
     && git clone https://github.com/turbot/steampipe-mod-azure-compliance.git --branch v0.35 --depth 1 \
     && steampipe service stop
 
-COPY toaed /bin/toaed
+#    COPY toaed /bin/toaed
 
 ENV VERSION=2.1.0 \
     PUBLISH_CLOUD_RESOURCES_INTERVAL_MINUTES=5 \
