@@ -47,8 +47,8 @@ RUN echo 'toae ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers.d/toae
 
 # Generate self-signed SSL certificate and key
 RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-    -keyout /etc/nginx/ssl/nginx-selfsigned.key \
-    -out /etc/nginx/ssl/nginx-selfsigned.crt \
+    -keyout /etc/certs/nginx-selfsigned.key \
+    -out /etc/certs/nginx-selfsigned.crt \
     -subj "/C=US/ST=State/L=City/O=Organization/CN=localhost"
 
 # Copy NGINX configuration files
