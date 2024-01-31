@@ -1,26 +1,31 @@
-# Define ARG variables
 ARG DF_IMG_TAG=latest
 ARG IMAGE_REPOSITORY=deepfenceio
 
-# Use base image for steampipe
 FROM $IMAGE_REPOSITORY/steampipe:$DF_IMG_TAG AS steampipe
 
-# Use golang base image for build
 FROM golang:1.21-bookworm AS build
 
 WORKDIR /home/toae/plugins/cloud-scanner
 COPY plugins/cloud-scanner .
+#RUN go build -o cloud_scanner .
 
-# Switch to Debian base image for the final image
+
 FROM debian:bookworm-slim
+MAINTAINER TOAE SECURITY Inc
+LABEL toae.role=system
 
-# Install NGINX and OpenSSL
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends nginx openssl && \
-    rm -rf /var/lib/apt/lists/*
+ENV DEEPFENCE_KEY=$TOAE_KEY \
+    HOME_DIR="/home/toae" \
+    COMPLIANCE_MOD_PATH="/opt/steampipe"
 
-# Copy NGINX configuration file
-COPY nginx.conf.template /etc/nginx/nginx.conf
+# Install NGINX and other required packages
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends nginx openssl bash git ca-certificates nano logrotate sudo \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy NGINX configuration files
+COPY nginx.conf.template /etc/nginx/nginx.conf.template
+COPY default.conf.template /etc/nginx/sites-available/default.conf.template
 
 # Create NGINX SSL directory
 RUN mkdir -p /etc/nginx/ssl
@@ -36,60 +41,70 @@ RUN mkdir -p /opt/steampipe
 
 # Install required packages
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-        bash \
-        git \
-        ca-certificates \
-        nano \
-        logrotate \
-        sudo \
-    && rm -rf /var/lib/apt/lists/*
+    && apt-get install -y --no-install-recommends bash git ca-certificates nano logrotate sudo \
+    #&& apt-get install -y --no-install-recommends postgresql-client-15 \
+    && useradd -rm -d /home/toae -s /bin/bash -g root -G sudo -u 1001 toae \
+    && mkdir  /opt/steampipe \
+    && chown toae /opt/steampipe
 
-# Create user and set permissions
-RUN useradd -rm -d /home/toae -s /bin/bash -g root -G sudo -u 1001 toae \
-    && mkdir -p /home/deepfence \
-    && chown -R toae:root /home/deepfence
+# Create directory /home/deepfence with correct permissions
+RUN mkdir -p /home/deepfence && chown toae:root /home/deepfence
 
-# Grant sudo privileges to user 'toae' without password prompt
-RUN echo 'toae ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers.d/toae
+# Installing FluentBit
+#RUN mkdir -p /etc/td-agent-bit/ /root/fluentbit
+#COPY tools/apache/fluentbit/* /etc/td-agent-bit/
 
-# Copy scripts and configuration files
+RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
 COPY etc/fenced_logrotate.conf /etc/logrotate.d/logrotate.conf
+RUN chmod 600 /etc/logrotate.d/logrotate.conf
+
 COPY start_cloud_agent.sh /entrypoint.sh
-
-# Copy NGINX configuration files
-COPY nginx.conf.template /etc/nginx/nginx.conf.template
-COPY default.conf.template /etc/nginx/sites-available/default.conf.template
-
-# Set permissions for entrypoint script
 RUN chmod +x /entrypoint.sh
+#COPY plugins/fluent-bit/build/bin/fluent-bit /opt/td-agent-bit/bin/
 
-# Switch to the 'toae' user
-USER toae
+#    RUN chown -R toae:root /opt/ /home/toae /var/log /var/run/
+#    && chown -R root:root /etc/td-agent-bit/ /root/fluentbit
 
-# Set the working directory
 WORKDIR /opt/steampipe
 
-# Copy the steampipe binary from the steampipe stage
+USER toae
+#    COPY supervisord-cloud.conf /home/toae/supervisord.conf
 COPY --from=steampipe /usr/local/bin/steampipe /usr/local/bin/steampipe
 
-# Install steampipe plugins
 RUN steampipe service start \
     && steampipe plugin install steampipe \
+    # plugin version should be in sync with Toae fork https://github.com/Sam12121/steampipe-plugin-aws
     && steampipe plugin install aws@0.118.1 gcp@0.43.0 azure@0.49.0 azuread@0.12.0 \
     && git clone https://github.com/turbot/steampipe-mod-aws-compliance.git --branch v0.79 --depth 1 \
     && git clone https://github.com/turbot/steampipe-mod-gcp-compliance.git --branch v0.21 --depth 1 \
     && git clone https://github.com/turbot/steampipe-mod-azure-compliance.git --branch v0.35 --depth 1 \
     && steampipe service stop
 
-# Set environment variables
+#    COPY toaed /bin/toaed
+
 ENV VERSION=2.1.0 \
     PUBLISH_CLOUD_RESOURCES_INTERVAL_MINUTES=5 \
     FETCH_CLOUD_RESOURCES_INTERVAL_HOURS=12
 
-# Expose port 8080
 EXPOSE 8080
 
-# Set the entrypoint and default command
+COPY --from=steampipe /usr/local/bin/steampipe-plugin-aws.plugin /home/toae/.steampipe/plugins/hub.steampipe.io/plugins/turbot/aws@latest/steampipe-plugin-aws.plugin
+COPY --from=steampipe /usr/local/bin/steampipe-plugin-gcp.plugin /home/toae/.steampipe/plugins/hub.steampipe.io/plugins/turbot/gcp@latest/steampipe-plugin-gcp.plugin
+COPY --from=steampipe /usr/local/bin/steampipe-plugin-azure.plugin /home/toae/.steampipe/plugins/hub.steampipe.io/plugins/turbot/azure@latest/steampipe-plugin-azure.plugin
+COPY --from=steampipe /usr/local/bin/steampipe-plugin-azuread.plugin /home/toae/.steampipe/plugins/hub.steampipe.io/plugins/turbot/azuread@latest/steampipe-plugin-azuread.plugin
+
+# Create symbolic link for /home/deepfence
+RUN ln -s /home/toae /home/deepfence
+
+COPY --from=build /home/toae/plugins/cloud-scanner/cloud_scanner /usr/local/bin/cloud_scanner
+
+USER root
+
+RUN ln -s /usr/local/bin/cloud_scanner /usr/local/bin/cloud_compliance_scan \
+    && apt-get -y remove git ca-certificates
+
+USER toae
+
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["/usr/local/bin/cloud_scanner"]
